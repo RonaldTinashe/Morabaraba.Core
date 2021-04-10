@@ -19,3 +19,8 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * For example, A1 Row A2 Row A3
 * Each junction may be either empty or occupied by a cow
 * A cow can be placed onto or removed from a junction
+
+## Players
+
+* Each player has a hand of cows of single shade
+* The shades may either be dark or light
