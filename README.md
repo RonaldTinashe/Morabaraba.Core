@@ -19,6 +19,12 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * For example, A1 Row A2 Row A3
 * Each junction may be either empty or occupied by a cow
 * A cow can be placed onto or removed from a junction
+* The board reports whether two junctions are neighbours
+* The board reports the lines that are occupied by cows of a particular
+    shade - mills
+* The board reports the number of cows of a given shade occupying it
+* The board reports if a shade on the board has cows with free neighbours
+* The mills that a junction is in are reported
 
 ## Players
 
@@ -33,23 +39,59 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * The player is flying if they have
         * No hand
         * 3 or fewer cows on the board
+* The player reports the number of cows on hand
+
+## Move
+
+* A move may either be a
+    * A placement with a single junction or
+    * A movement with a source and a destination junction or
+    * A concession
+* A move may include a shot with it if it's a placement or a movement
 
 ## History
 
 * The history keeps collects combinations of
     * Each move
     * The board after the move was actioned
-    * The player who made the move
+    * The player (state) who made the move
 * The history can report a particular player's previous turn
 * The history can report if there has been a shot in the past ten moves
-* The history can replay the game till the most recent move
 
 ## Gameplay
 
-## Initialisation
-
-* The board is completely empty
-* Both dark and light players are issued 12 cows
-* Start with an empty history
-
-
+* The game is initialised with
+    * An empty board
+    * Both dark and light players issued 12 cows
+    * An empty history
+* The user provides input in the form of a move and
+    the history is implicitly provided as an input
+* The user in returns gets an updated history or error containing an 
+    error code, the offending move and the input history
+* Each move must correspond with the history
+    * A player may only place a cow if they are in the placing phase
+    * A player may only shoot if their turn forms a new mill
+    * A player may only shoot an opponent's cow that is
+        * Either not in a mill OR
+        * If all the opponent's cows are in mills
+    * A player may only move if they are either in the moving or
+        flying phases
+    * A player may only move in the moving phase if the move is taking
+        place on neighbouring junctions
+    * A player may only move if the movement does not
+        form a second most recent turn's mill that they broke in the
+        most recent turn to form the most recent turn's mill that they
+        will break if the move is successful
+* Turns switch after every successful move with the first being the dark
+* The game completes when
+    * The player concedes when
+        * They have less 2 or fewer cows on the board OR
+        * The player cannot move
+            * All the player's cows are have no empty neighbours and
+            the player is in the moving phase
+        * If the player chooses to concde
+    * The game is called a draw when
+        * If both competitors are either in moving or flying phases, and
+            there has been no shot in the most recent ten moves
+        * Both competitors are in the moving phase and all their cows have
+        no empty neighbours
