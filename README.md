@@ -95,3 +95,14 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
             there has been no shot in the most recent ten moves
         * Both competitors are in the moving phase and all their cows have
         no empty neighbours
+
+## Error Codes
+
+* Placement expected
+* Movement expected
+* No new mill formed
+* Shooting target in a mill
+* Moving phase but movement not on neighbouring junctions
+* Mill cannot be reformed
+* Junction occupied
+* Junction empty
