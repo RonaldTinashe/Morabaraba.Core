@@ -11,6 +11,7 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * They may have different names
     * But their positions remain the same
     * Their connections also remain the same
+    * The junctions are indexed from 1 to 24
 * Two junctions are connected to each other via
     * Rows
     * Columns
