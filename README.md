@@ -64,10 +64,6 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * An empty board
     * Both dark and light players issued 12 cows
     * An empty history
-* The user provides input in the form of a move and
-    the history is implicitly provided as an input
-* The user in returns gets an updated history or error containing an 
-    error code, the offending move and the input history
 * Each move must correspond with the history
     * A player may only place a cow if they are in the placing phase
     * A player may only shoot if their turn forms a new mill
@@ -106,3 +102,21 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 * Mill cannot be reformed
 * Junction occupied
 * Junction empty
+
+## Test Categories
+
+* Initialisation
+* Placement
+* Movement
+* Flight
+* Shooting
+* Turn switching
+* Error conditions
+* Termination
+
+## Input and Output
+
+* The input is a move and history
+* The output is either
+    * the updated history OR
+    * an error code, inputted history and the offending move
