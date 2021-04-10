@@ -24,13 +24,15 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 
 * Each player has a hand of cows of single shade
 * The shades may either be dark or light
+* The phase of a player can be computed from their hand and board
+    after a move
 
 ## History
 
 * The history keeps collects combinations of
     * Each move
     * The board after the move was actioned
-    * The shade of the player who made the move
+    * The player who made the move
 * The history can report a particular player's previous turn
 * The history can report if there has been a shot in the past ten moves
 * The history can replay the game till the most recent move
