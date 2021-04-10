@@ -15,7 +15,7 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
     * Rows
     * Columns
     * Diagonals
-* They form lines where three of them have the same kind of connection.
+* They form lines where three of them have the same kind of connection
     * For example, A1 Row A2 Row A3
 * Each junction may be either empty or occupied by a cow
 * A cow can be placed onto or removed from a junction
@@ -24,6 +24,16 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 
 * Each player has a hand of cows of single shade
 * The shades may either be dark or light
+
+## History
+
+* The history keeps collects combinations of
+    * Each move
+    * The board after the move was actioned
+    * The shade of the player who made the move
+* The history can report a particular player's previous turn
+* The history can report if there has been a shot in the past ten moves
+* The history can replay the game till the most recent move
 
 ## Gameplay
 
