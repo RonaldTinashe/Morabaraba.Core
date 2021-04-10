@@ -26,6 +26,13 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 * The shades may either be dark or light
 * The phase of a player can be computed from their hand and board
     after a move
+    * The player is placing if they have a hand
+    * The player is moving if they have
+        * No hand
+        * More than 3 cows on the board
+    * The player is flying if they have
+        * No hand
+        * 3 or fewer cows on the board
 
 ## History
 
@@ -44,3 +51,5 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 * The board is completely empty
 * Both dark and light players are issued 12 cows
 * Start with an empty history
+
+
