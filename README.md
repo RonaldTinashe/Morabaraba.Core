@@ -24,3 +24,11 @@ Source: http://esportscommentator.blogspot.com/2015/04/generally-accepted-rules-
 
 * Each player has a hand of cows of single shade
 * The shades may either be dark or light
+
+## Gameplay
+
+## Initialisation
+
+* The board is completely empty
+* Both dark and light players are issued 12 cows
+* Start with an empty history
