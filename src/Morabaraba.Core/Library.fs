@@ -14,7 +14,7 @@ type MainMove = Placement of int
 type Move = { Main : MainMove; Shot : int option }
 
 /// Models a single historical event
-type Event = { Occupations: Map<int, Shade> }
+type Event = { Occupations : Map<int, Shade>; Player : Player }
 
 /// The game object's initial state
 let initial =
@@ -28,6 +28,8 @@ let initial =
 
 /// Applies move with historical context
 let play { Main = mainMove } history =
-    match mainMove with
-    | Placement junction -> 
-        Some [ { Occupations = Map.add junction Dark Map.empty } ]
+    match mainMove, history with
+    | Placement junction, [] -> Some [{ Occupations = Map.add junction Dark Map.empty; Player = { Shade = Dark; Cows = 11 } }]
+    | Placement junction, [{ Occupations = occupations; Player = { Shade = Dark }}] ->
+        { Occupations = Map.add junction Light occupations; Player = { Shade = Light; Cows = 11 } } :: history |> Some
+    | _ -> None
