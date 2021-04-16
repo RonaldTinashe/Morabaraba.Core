@@ -4,7 +4,7 @@ open Expecto
 open Morabaraba.Core
 
 [<Tests>]
-let placementOnEmptyBoardTests =
+let ``placement on board`` =
   testList 
     "Placing on an empty board"
     [
