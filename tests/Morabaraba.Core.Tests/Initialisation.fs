@@ -12,7 +12,7 @@ let tests =
         "Game initialises with empty board"
         (fun () -> 
           let expected = Map.empty
-          let actual = initial.Board
+          let actual = initial.Occupations
           Expect.equal actual expected "Board should be empty")
 
       testCase 
