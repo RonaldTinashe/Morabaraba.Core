@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="Initialisation.fs" />
+    <Compile Include="Playing.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
