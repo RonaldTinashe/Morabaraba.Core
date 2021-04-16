@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="DomainTypes.fs" />
+    <Compile Include="Initialisation.fs" />
+    <Compile Include="Playing.fs" />
   </ItemGroup>
 
 </Project>

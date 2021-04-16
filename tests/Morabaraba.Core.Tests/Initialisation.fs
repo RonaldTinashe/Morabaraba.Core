@@ -2,6 +2,7 @@ module Morabaraba.Core.Tests.Initialisation
 
 open Expecto
 open Morabaraba.Core
+open Morabaraba.Core.Initialisation
 
 [<Tests>]
 let tests =

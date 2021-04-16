@@ -2,6 +2,7 @@ module Morabaraba.Core.Tests.Placing
 
 open Expecto
 open Morabaraba.Core
+open Morabaraba.Core.Playing
 
 [<Tests>]
 let ``placement on board`` =
