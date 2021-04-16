@@ -10,13 +10,13 @@ type Move = { Main : MainMove; Shot : int option }
 
 type Event = { Occupations: Map<int, Shade> }
 
-let initial<'J, 'O> =
+let initial =
     let issue shade = { Shade = shade; Cows = 12 }
     {| 
-        Occupations = Map.empty
+        Occupations = (Map.empty : Map<int, Shade>)
         DarkPlayer = issue Dark
         LightPlayer = issue Light
-        History = []
+        History = ([] : Event list)
     |}
 
 let play { Main = mainMove } history =
