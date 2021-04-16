@@ -14,5 +14,5 @@ let initial<'J, 'O> =
     {| 
         Board = Occupants Map.empty
         DarkPlayer = issue Dark
-        LightPlayer = { Shade = Light; Cows = 12 }
+        LightPlayer = issue Light
     |}
