@@ -4,9 +4,9 @@ open Expecto
 open Morabaraba.Core
 
 [<Tests>]
-let tests =
+let placementOnEmptyBoardTests =
   testList 
-    "Placing"
+    "Placing on an empty board"
     [
         testCase
             "Placement by dark player on empty board's 4th junction"
