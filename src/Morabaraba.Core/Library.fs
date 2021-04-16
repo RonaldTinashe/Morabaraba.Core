@@ -15,4 +15,5 @@ let initial<'J, 'O> =
         Board = Occupants Map.empty
         DarkPlayer = issue Dark
         LightPlayer = issue Light
+        History = []
     |}
