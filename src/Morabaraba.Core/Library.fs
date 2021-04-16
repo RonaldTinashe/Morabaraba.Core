@@ -21,5 +21,5 @@ let initial<'J, 'O> =
 
 let play { Main = mainMove } history =
     match mainMove with
-    | Placement 4 -> Some [ { Occupations = Map.add 4 Dark Map.empty } ]
-    | _ -> None
+    | Placement junction -> 
+        Some [ { Occupations = Map.add junction Dark Map.empty } ]
