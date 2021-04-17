@@ -2,7 +2,6 @@ module Morabaraba.Core.Playing
 
 open Initialisation
 
-/// Applies move with historical context
 let play { Main = mainMove } history =
     let occupy junction shade occupations = Map.add junction shade occupations
     let getPlayer history = 
