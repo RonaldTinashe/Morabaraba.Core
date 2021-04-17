@@ -55,27 +55,30 @@ let filterMills occupations shade line =
             occupations.[junction] = shade)
         line
 
-let getMills history =
+let getMills history shade =
     match history with
     | [] -> []
-    | { Occupations = occupations; Player = player } :: _ ->
-        List.filter (filterMills occupations player.Shade) lines
+    | { Occupations = occupations } :: _ -> 
+        List.filter (filterMills occupations shade) lines
 
 let getDefenceMills history =
     match history with
     | [] -> []
-    | _ :: defenceHistory -> getMills defenceHistory
+    | [_] -> []
+    | _ :: ({ Player = defender } :: _ as defenceHistory)-> 
+        getMills defenceHistory defender.Shade
 
 let getShootingMills history =
     match history with
     | [] -> []
     | { Occupations = occupations; Player = player } :: 
         { Occupations = previousOccupations } :: _ ->
-        let currentMills = getMills history
+        let currentMills = getMills history player.Shade
         let previousMills = 
             List.filter (filterMills previousOccupations player.Shade) lines
         List.except previousMills currentMills
-    | history -> getMills history
+    | { Occupations = occupations; Player = player } :: _ -> 
+        getMills history player.Shade
 
 let place junction history =
     validate junction
