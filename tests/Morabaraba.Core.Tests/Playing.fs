@@ -73,7 +73,7 @@ let ``placement by light player`` =
         ]
 
 [<Tests>]
-let ``placemet by dark player`` =
+let ``placement by dark player`` =
     testList
         "Placement by dark player"
         [
@@ -124,5 +124,36 @@ let ``placemet by dark player`` =
                             history
                         actForCowCount move history
                     let message = "Dark cow must be placed"
+                    Expect.equal actual expected message)
+        ]
+
+[<Tests>]
+let ``placement cannot take place with no cows`` =
+    testList
+        "Placement cannot take place with no cows"
+        [
+            testCase
+                "Placement on with 0 cows"
+                (fun () ->
+                    let expected = None
+                    let actual =
+                        let junction = 1
+                        let move = { Main = Placement junction; Shot = None }
+                        let history =
+                            let occupations = Map.add 2 Dark Map.empty
+                            let history = 
+                                {
+                                    Occupations = occupations
+                                    Player = { Shade = Dark; Cows = 0 }
+                                } :: []
+                            let occupations = Map.add 3 Light occupations
+                            let history =
+                                {
+                                    Occupations = occupations
+                                    Player = { Shade = Light; Cows = 0 }
+                                } :: history
+                            history
+                        actForCowCount move history
+                    let message = "Cow shuld not be placed"
                     Expect.equal actual expected message)
         ]

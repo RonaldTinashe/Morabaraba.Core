@@ -17,13 +17,15 @@ let play { Main = mainMove } history =
         | event :: _ -> event.Occupations
     let getTurn history = getOccupations history, getPlayer history
     let place history junction =
-        let history =
+        let event =
             let occupations, player = getTurn history
-            {
-                Occupations = occupy junction player.Shade occupations
-                Player = { player with Cows = player.Cows - 1 }
-            } :: history
-        Some history
+            if player.Cows > 0 then
+                {
+                    Occupations = occupy junction player.Shade occupations
+                    Player = { player with Cows = player.Cows - 1 }
+                } |> Some
+            else None
+        Option.bind (fun event -> event :: history |> Some ) event
     match mainMove with
     | Placement junction -> place history junction
     
