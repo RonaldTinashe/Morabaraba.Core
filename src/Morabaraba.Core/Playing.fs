@@ -4,6 +4,8 @@ open Initialisation
 
 let occupy junction shade occupations = Map.add junction shade occupations
 
+let empty target occupations = Map.remove target occupations
+
 let getPlayer history = 
     match history with
     | [] -> initial.DarkPlayer
@@ -96,7 +98,7 @@ let shoot target history =
         match history with
         | [] -> Error UnexpectedShot
         | { Occupations = occupations } as event :: history ->
-            let occupations = Map.remove target occupations
+            let occupations = empty target occupations
             Ok ({ event with Occupations = occupations } :: history)
 
 let play move history =
