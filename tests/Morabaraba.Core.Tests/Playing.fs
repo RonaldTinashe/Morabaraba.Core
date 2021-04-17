@@ -86,6 +86,7 @@ let ``placemet by dark player`` =
                                     Occupations = occupations
                                     Player = { Shade = Light; Cows = 11 }
                                 }
+                                
                                 { 
                                     Occupations = darkOccupation
                                     Player = { Shade = Dark; Cows = 11 }
