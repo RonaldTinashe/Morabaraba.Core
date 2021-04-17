@@ -12,7 +12,7 @@ let actForShade move history junction =
     Option.bind eventBinder >> Option.bind occupationBinder
 
 /// Act for the tests involving cow count
-let actForCowCount move history junction =
+let actForCowCount move history =
     play move history |> 
     let eventBinder history = List.tryHead history
     let cowBinder event =  Some event.Player.Cows
@@ -134,7 +134,7 @@ let ``placemet by dark player`` =
                                     Player = { Shade = Light; Cows = 10 }
                                 } :: history
                             history
-                        actForCowCount move history junction
+                        actForCowCount move history
                     let message = "Dark cow must be placed"
                     Expect.equal actual expected message)
         ]
