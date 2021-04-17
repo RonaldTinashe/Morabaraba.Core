@@ -4,19 +4,25 @@ open Expecto
 open Morabaraba.Core
 open Morabaraba.Core.Playing
 
+let optionToResult = 
+    function
+    | Some value -> Ok value
+    | None -> Error UnexpectedPlacement
+
 /// Act for the tests
 let actForShade move history junction =
     play move history |> 
-    let eventBinder history = List.tryHead history
-    let occupationBinder event =  Map.tryFind junction event.Occupations
-    Option.bind eventBinder >> Option.bind occupationBinder
+    let eventBinder history = List.tryHead history |> optionToResult
+    let occupationBinder event = 
+        Map.tryFind junction event.Occupations |> optionToResult
+    Result.bind eventBinder >> Result.bind occupationBinder
 
 /// Act for the tests involving cow count
 let actForCowCount move history =
     play move history |> 
-    let eventBinder history = List.tryHead history
-    let cowBinder event =  Some event.Player.Cows
-    Option.bind eventBinder >> Option.bind cowBinder
+    let eventBinder history = List.tryHead history |> optionToResult
+    let cowBinder event =  Ok event.Player.Cows
+    Result.bind eventBinder >> Result.bind cowBinder
 
 [<Tests>]
 let ``placement on board`` =
@@ -26,7 +32,7 @@ let ``placement on board`` =
             testCase
                 "Placement by dark player on empty board's 4th junction"
                 (fun () -> 
-                    let expected = Some Dark
+                    let expected = Ok Dark
                     let actual =
                         let junction = 4
                         let move = { Main = Placement junction; Shot = None }
@@ -38,7 +44,7 @@ let ``placement on board`` =
             testCase
                 "Placement by dark player on empty board's 1st junction"
                 (fun () -> 
-                    let expected = Some Dark
+                    let expected = Ok Dark
                     let actual =
                         let junction = 1
                         let move = { Main = Placement junction; Shot = None }
@@ -56,7 +62,7 @@ let ``placement by light player`` =
             testCase
                 "Placement by light player on a board's 1st junction"
                 (fun () -> 
-                    let expected = Some Light
+                    let expected = Ok Light
                     let actual =
                         let junction = 1
                         let move = { Main = Placement junction; Shot = None }
@@ -80,7 +86,7 @@ let ``placement by dark player`` =
             testCase
                 "Placement by dark player on a board's 3rd junction"
                 (fun () ->
-                    let expected = Some Dark
+                    let expected = Ok Dark
                     let actual =
                         let junction = 3
                         let move = { Main = Placement junction; Shot = None }
@@ -110,7 +116,7 @@ let ``count-related tests`` =
             testCase
                 "Placement after 4 turns on a board's 8th junction"
                 (fun () ->
-                    let expected = Some 9
+                    let expected = Ok 9
                     let actual =
                         let junction = 8
                         let move = { Main = Placement junction; Shot = None }
@@ -135,7 +141,7 @@ let ``count-related tests`` =
             testCase
                 "Placement on with 0 cows"
                 (fun () ->
-                    let expected = None
+                    let expected = Error UnexpectedPlacement
                     let actual =
                         let junction = 1
                         let move = { Main = Placement junction; Shot = None }

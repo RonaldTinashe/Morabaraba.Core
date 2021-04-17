@@ -25,9 +25,9 @@ let place history junction =
             {
                 Occupations = occupy junction player.Shade occupations
                 Player = { player with Cows = player.Cows - 1 }
-            } |> Some
-        else None
-    Option.bind (fun event -> event :: history |> Some ) event
+            } |> Ok
+        else Error UnexpectedPlacement
+    Result.bind (fun event -> event :: history |> Ok ) event
 
 let play { Main = mainMove } history =
     match mainMove with
