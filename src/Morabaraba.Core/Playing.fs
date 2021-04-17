@@ -1,8 +1,16 @@
 module Morabaraba.Core.Playing
 
+open Initialisation
+
 /// Applies move with historical context
 let play { Main = mainMove } history =
     let occupy junction shade occupations = Map.add junction shade occupations
+    let getPlayer history = 
+        match history with
+        | [] -> initial.DarkPlayer
+        | [_] -> initial.LightPlayer
+        | { Player = { Shade = Dark }} :: { Player = player } :: _
+        | { Player = { Shade = Light }} :: { Player = player } :: _ -> player
     match mainMove, history with
     // First move
     | Placement junction, [] ->
@@ -10,7 +18,7 @@ let play { Main = mainMove } history =
             [
                 {
                     Occupations = occupy junction Dark Map.empty
-                    Player = { Shade = Dark; Cows = 11 }
+                    Player = { getPlayer history with Cows = 11 }
                 }
             ]
         Some history
