@@ -100,7 +100,13 @@ let ``placement by dark player`` =
                         actForShade move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
+        ]
 
+[<Tests>]
+let ``count-related tests`` =
+    testList
+        "Placement cannot take place with no cows"
+        [
             testCase
                 "Placement after 4 turns on a board's 8th junction"
                 (fun () ->
@@ -125,13 +131,7 @@ let ``placement by dark player`` =
                         actForCowCount move history
                     let message = "Dark cow must be placed"
                     Expect.equal actual expected message)
-        ]
 
-[<Tests>]
-let ``placement cannot take place with no cows`` =
-    testList
-        "Placement cannot take place with no cows"
-        [
             testCase
                 "Placement on with 0 cows"
                 (fun () ->
