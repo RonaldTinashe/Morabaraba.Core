@@ -15,10 +15,10 @@ let play { Main = mainMove } history =
         match history with
         | [] -> initial.Occupations
         | event :: _ -> event.Occupations
+    let getTurn history = getOccupations history, getPlayer history
     let place history junction count =
         let history =
-            let occupations = getOccupations history
-            let player = getPlayer history
+            let occupations, player = getTurn history
             {
                 Occupations = occupy junction player.Shade occupations
                 Player = { player with Cows = count }
