@@ -1,7 +1,8 @@
 ﻿module Morabaraba.Core.Initialisation
 
+let issue shade = { Shade = shade; Cows = 12 }
+
 let initial =
-    let issue shade = { Shade = shade; Cows = 12 }
     {| 
         Occupations = (Map.empty : Map<int, Shade>)
         DarkPlayer = issue Dark
