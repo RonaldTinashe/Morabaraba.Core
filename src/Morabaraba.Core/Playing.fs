@@ -86,13 +86,12 @@ let place junction history =
         let occupations, player = getTurn history
         if player.Cows > 0 then
             let occupations = occupy junction player.Shade occupations
-            match occupations with
-            | Ok occupations ->
+            let occupationBinder occupations =
                 {
                     Occupations = occupations
                     Player = { player with Cows = player.Cows - 1 }
                 } |> Ok
-            | Error error -> Error error
+            Result.bind occupationBinder occupations
         else Error UnexpectedPlacement
     Result.bind (fun event -> event :: history |> Ok ) event
 
