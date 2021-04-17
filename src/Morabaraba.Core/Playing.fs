@@ -85,6 +85,22 @@ let getShootingMills history =
         let previousMills = getMills previousHistory player.Shade
         List.except previousMills currentMills
 
+let getJunctionsInDefenceMills history = 
+    getDefenceMills history |> 
+    List.concat |>
+    List.distinct |>
+    List.sort
+
+let getDefenceJunctions history =
+    match history with
+    | []
+    | [_] -> []
+    | { Occupations = occupations } :: { Player = { Shade = shade }} :: _ ->
+        Map.filter (fun _ cow -> cow = shade) occupations |>
+        Map.toList |>
+        List.map (fun (junction, _) -> junction) |>
+        List.sort
+
 let place junction history =
     validate junction
     let event =
@@ -102,7 +118,9 @@ let place junction history =
 
 let shoot target history =
     if getShootingMills history |> List.isEmpty ||
-        getDefenceMills history |> List.exists (List.contains target) then
+        getDefenceMills history |> List.exists (List.contains target) &&
+        getJunctionsInDefenceMills history = getDefenceJunctions history |> not
+            then
         Error UnexpectedEmptying 
     else
         match history with
