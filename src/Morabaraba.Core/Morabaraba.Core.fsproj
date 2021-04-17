@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="DomainTypes.fs" />
+    <Compile Include="Initialisation.fsi" />
     <Compile Include="Initialisation.fs" />
     <Compile Include="Playing.fsi" />
     <Compile Include="Playing.fs" />

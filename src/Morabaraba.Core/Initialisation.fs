@@ -1,7 +1,5 @@
-﻿/// Logical kernel of the Morabaraba game
-module Morabaraba.Core.Initialisation
+﻿module Morabaraba.Core.Initialisation
 
-/// The game object's initial state
 let initial =
     let issue shade = { Shade = shade; Cows = 12 }
     {| 
@@ -10,4 +8,3 @@ let initial =
         LightPlayer = issue Light
         History = ([] : Event list)
     |}
-
