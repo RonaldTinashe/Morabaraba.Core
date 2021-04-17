@@ -104,6 +104,11 @@ let getDefenceJunctions history =
 let areAllDefenceJunctionsInMills history =
     getJunctionsInDefenceMills history = getDefenceJunctions history
 
+let canShoot target history =
+    getShootingMills history |> List.isEmpty ||
+    getDefenceMills history |> List.exists (List.contains target) &&
+    areAllDefenceJunctionsInMills history |> not
+
 let place junction history =
     validate junction
     let event =
@@ -120,10 +125,8 @@ let place junction history =
     Result.bind (fun event -> event :: history |> Ok ) event
 
 let shoot target history =
-    if getShootingMills history |> List.isEmpty ||
-        getDefenceMills history |> List.exists (List.contains target) &&
-        areAllDefenceJunctionsInMills history |> not then
-        Error UnexpectedEmptying 
+    validate target
+    if canShoot target history then Error UnexpectedEmptying 
     else
         match history with
         | [] -> Error UnexpectedEmptying
