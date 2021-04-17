@@ -71,14 +71,12 @@ let getDefenceMills history =
 let getShootingMills history =
     match history with
     | [] -> []
-    | { Occupations = occupations; Player = player } :: 
-        { Occupations = previousOccupations } :: _ ->
+    | { Player = player } :: { Occupations = previousOccupations } :: _ ->
         let currentMills = getMills history player.Shade
         let previousMills = 
             List.filter (filterMills previousOccupations player.Shade) lines
         List.except previousMills currentMills
-    | { Occupations = occupations; Player = player } :: _ -> 
-        getMills history player.Shade
+    | { Player = player } :: _ -> getMills history player.Shade
 
 let place junction history =
     validate junction
