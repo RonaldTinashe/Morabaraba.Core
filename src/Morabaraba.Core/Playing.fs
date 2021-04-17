@@ -71,7 +71,7 @@ let getShootingMills history =
     | [] -> []
     | { Occupations = occupations; Player = player } :: 
         { Occupations = previousOccupations } :: _ ->
-        let currentMills = List.filter (filterMills occupations player) lines
+        let currentMills = getMills history
         let previousMills = 
             List.filter (filterMills previousOccupations player) lines
         List.except previousMills currentMills
