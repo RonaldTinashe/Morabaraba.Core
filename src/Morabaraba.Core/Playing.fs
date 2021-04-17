@@ -23,5 +23,14 @@ let play { Main = mainMove } history =
                 Player = { Shade = Light; Cows = 11 }
             } :: history
         Some history
+    // Dark player's turn
+    | Placement junction,
+        { Occupations = occupations; Player = { Shade = Light }} :: _ ->
+        let history =
+            {
+                Occupations = occupy junction Dark occupations
+                Player = { Shade = Dark; Cows = 10 }
+            } :: history
+        Some history
     | _ -> None
     
