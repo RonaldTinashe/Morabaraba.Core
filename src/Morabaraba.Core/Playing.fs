@@ -19,9 +19,11 @@ let play { Main = mainMove } history =
     // First move
     | Placement junction, [] ->
         let history =
+            let occupations = getOccupations history
+            let player = getPlayer history
             {
-                Occupations = occupy junction Dark <| getOccupations history
-                Player = { getPlayer history with Cows = 11 }
+                Occupations = occupy junction player.Shade occupations
+                Player = { player with Cows = 11 }
             } :: history
         Some history
     // Dark player's second turn
