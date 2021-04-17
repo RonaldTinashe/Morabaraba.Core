@@ -35,10 +35,12 @@ let play { Main = mainMove } history =
         Some history
     // Light player's turn
     | Placement junction, _ ->
-        let history = 
+        let history =
+            let occupations = getOccupations history
+            let player = getPlayer history
             {
-                Occupations = occupy junction Light <| getOccupations history
-                Player = { getPlayer history with Cows = 11 }
+                Occupations = occupy junction player.Shade occupations
+                Player = { player with Cows = 11 }
             } :: history
         Some history
     
