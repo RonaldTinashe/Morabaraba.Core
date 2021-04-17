@@ -200,11 +200,7 @@ let ``failure cases`` =
                     let history =
                         [
                             {
-                                Occupations =
-                                    Map.ofList
-                                        [
-                                            1, Dark
-                                        ]
+                                Occupations = Map.ofList [ 1, Dark ]
                                 Player = { Shade = Dark; Cows = 11 }
                             }
                         ]
