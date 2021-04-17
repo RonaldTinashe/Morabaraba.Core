@@ -22,18 +22,6 @@ let validate junction =
     if junction > 0 && junction < 25 then ()
     else invalidArg "junction" <| sprintf "Value passed is %i" junction
 
-let place history junction =
-    validate junction
-    let event =
-        let occupations, player = getTurn history
-        if player.Cows > 0 then
-            {
-                Occupations = occupy junction player.Shade occupations
-                Player = { player with Cows = player.Cows - 1 }
-            } |> Ok
-        else Error UnexpectedPlacement
-    Result.bind (fun event -> event :: history |> Ok ) event
-
 let lines =
     let rows =
         seq 
@@ -72,6 +60,18 @@ let mills history =
                 line
         List.filter (millFilter occupations player) lines
 
+let place junction history =
+    validate junction
+    let event =
+        let occupations, player = getTurn history
+        if player.Cows > 0 then
+            {
+                Occupations = occupy junction player.Shade occupations
+                Player = { player with Cows = player.Cows - 1 }
+            } |> Ok
+        else Error UnexpectedPlacement
+    Result.bind (fun event -> event :: history |> Ok ) event
+
 let shoot target history =
     if mills history |> List.isEmpty then Error UnexpectedShot
     else
@@ -83,7 +83,7 @@ let shoot target history =
 
 let play move history =
     match move with
-    | { Main = Placement junction; Shot = None } -> place history junction
+    | { Main = Placement junction; Shot = None } -> place junction history
     | { Main = Placement junction; Shot = Some target } ->
-        let history = place history junction
+        let history = place junction history
         Result.bind (shoot target) history
