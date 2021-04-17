@@ -22,6 +22,8 @@ let getOccupations history =
 
 let getTurn history = getOccupations history, getPlayer history
 
+let decrementHand player = { player with Cows = player.Cows - 1 }
+
 let validate junction = 
     if junction > 0 && junction < 25 then ()
     else invalidArg "junction" <| sprintf "Value passed is %i" junction
@@ -89,7 +91,7 @@ let place junction history =
             let occupationBinder occupations =
                 {
                     Occupations = occupations
-                    Player = { player with Cows = player.Cows - 1 }
+                    Player = decrementHand player
                 } |> Ok
             Result.bind occupationBinder occupations
         else Error UnexpectedPlacement
