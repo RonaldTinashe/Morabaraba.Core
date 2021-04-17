@@ -18,17 +18,20 @@ let getOccupations history =
 
 let getTurn history = getOccupations history, getPlayer history
 
+let validate junction = 
+    if junction > 0 && junction < 25 then ()
+    else invalidArg "junction" <| sprintf "Value passed is %i" junction
+
 let place history junction =
+    validate junction
     let event =
-        if junction > 0 && junction < 25 then
-            let occupations, player = getTurn history
-            if player.Cows > 0 then
-                {
-                    Occupations = occupy junction player.Shade occupations
-                    Player = { player with Cows = player.Cows - 1 }
-                } |> Ok
-            else Error UnexpectedPlacement
-        else invalidArg "junction" <| sprintf "Value passed is %i" junction
+        let occupations, player = getTurn history
+        if player.Cows > 0 then
+            {
+                Occupations = occupy junction player.Shade occupations
+                Player = { player with Cows = player.Cows - 1 }
+            } |> Ok
+        else Error UnexpectedPlacement
     Result.bind (fun event -> event :: history |> Ok ) event
 
 let play { Main = mainMove } history =
