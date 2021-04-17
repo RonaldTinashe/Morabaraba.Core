@@ -2,8 +2,9 @@ module Morabaraba.Core.Playing
 
 open Initialisation
 
+let occupy junction shade occupations = Map.add junction shade occupations
+
 let play { Main = mainMove } history =
-    let occupy junction shade occupations = Map.add junction shade occupations
     let getPlayer history = 
         match history with
         | [] -> initial.DarkPlayer
