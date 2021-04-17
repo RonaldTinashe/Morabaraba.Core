@@ -48,18 +48,18 @@ let lines =
             }
     seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
 
-let filterMills occupations player line = 
+let filterMills occupations shade line = 
     List.forall 
         (fun junction -> 
             Map.containsKey junction occupations &&
-            occupations.[junction] = player.Shade)
+            occupations.[junction] = shade)
         line
 
 let getMills history =
     match history with
     | [] -> []
     | { Occupations = occupations; Player = player } :: _ ->
-        List.filter (filterMills occupations player) lines
+        List.filter (filterMills occupations player.Shade) lines
 
 let getDefenceMills history =
     match history with
@@ -73,7 +73,7 @@ let getShootingMills history =
         { Occupations = previousOccupations } :: _ ->
         let currentMills = getMills history
         let previousMills = 
-            List.filter (filterMills previousOccupations player) lines
+            List.filter (filterMills previousOccupations player.Shade) lines
         List.except previousMills currentMills
     | history -> getMills history
 
