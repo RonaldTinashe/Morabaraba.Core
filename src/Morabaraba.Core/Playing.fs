@@ -49,15 +49,21 @@ let lines =
     seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
 
 let mills history =
+    let millFilter occupations player line = 
+        List.forall 
+            (fun junction -> 
+                Map.containsKey junction occupations &&
+                occupations.[junction] = player.Shade)
+            line
     match history with
     | [] -> []
+    | { Occupations = occupations; Player = player } :: 
+        { Occupations = previousOccupations } :: _ ->
+        let currentMills = List.filter (millFilter occupations player) lines
+        let previousMills = 
+            List.filter (millFilter previousOccupations player) lines
+        List.except previousMills currentMills
     | { Occupations = occupations; Player = player } :: _ ->
-        let millFilter occupations player line = 
-            List.forall 
-                (fun junction -> 
-                    Map.containsKey junction occupations &&
-                    occupations.[junction] = player.Shade)
-                line
         List.filter (millFilter occupations player) lines
 
 let place junction history =

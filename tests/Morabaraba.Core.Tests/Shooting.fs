@@ -65,7 +65,7 @@ let ``successful shooting`` =
                            } :: history)
                     let actual =
                         play move history
-                    let message = "Dark cow should be placed"
+                    let message = "Light cow should be shot"
                     Expect.equal actual expected message)
         ]
 
@@ -118,6 +118,77 @@ let ``unsuccessful shooting`` =
                     let expected = Error UnexpectedShot
                     let actual =
                         play move history
+                    let message = "Error UnexpectedShot should be output"
+                    Expect.equal actual expected message)
+
+            testCase
+                "error when no new mill is found"
+                (fun () -> 
+                    let move = { Main = Placement 8; Shot = Some 4 }
+                    let history =
+                        [
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            7, Light
+                                            3, Dark
+                                            5, Light
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Light; Cows = 9 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            3, Dark
+                                            5, Light
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Dark; Cows = 9 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            5, Light
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Light; Cows = 10 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Dark; Cows = 10 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Light; Cows = 11 }
+                            }
+                            {
+                                Occupations = Map.ofList [1, Dark]
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let expected = Error UnexpectedShot
+                    let actual = play move history
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
