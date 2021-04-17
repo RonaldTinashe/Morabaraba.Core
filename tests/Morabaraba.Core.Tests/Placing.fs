@@ -1,5 +1,6 @@
 module Morabaraba.Core.Tests.Placing
 
+open System
 open Expecto
 open Morabaraba.Core
 open Morabaraba.Core.Playing
@@ -139,7 +140,7 @@ let ``count-related tests`` =
                     Expect.equal actual expected message)
 
             testCase
-                "Placement on with 0 cows"
+                "Placement with 0 cows"
                 (fun () ->
                     let expected = Error UnexpectedPlacement
                     let actual =
@@ -160,6 +161,23 @@ let ``count-related tests`` =
                                 } :: history
                             history
                         actForCowCount move history
-                    let message = "Cow shuld not be placed"
+                    let message = "Cow should not be placed"
                     Expect.equal actual expected message)
+        ]
+
+[<Tests>]
+let ``failure cases`` =
+    testList
+        "fail when invalid data is provided"
+        [
+            testCase
+                "fail when junction is < 1"
+                (fun () ->
+                    let junction = -3
+                    let move = { Main = Placement junction; Shot = None }
+                    let history = []
+                    let actor () = play move history |> ignore
+                    let message = 
+                        "Function should throw invalid argument exception"
+                    Expect.throwsT<ArgumentException> actor message)
         ]
