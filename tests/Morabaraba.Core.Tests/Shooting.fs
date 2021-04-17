@@ -63,8 +63,7 @@ let ``successful shooting`` =
                                         ]
                                 Player = { Shade = Dark; Cows = 9 }
                            } :: history)
-                    let actual =
-                        play move history
+                    let actual = play move history
                     let message = "Light cow should be shot"
                     Expect.equal actual expected message)
         ]
@@ -116,8 +115,7 @@ let ``unsuccessful shooting`` =
                             }
                         ]
                     let expected = Error UnexpectedShot
-                    let actual =
-                        play move history
+                    let actual = play move history
                     let message = "Error UnexpectedShot should be output"
                     Expect.equal actual expected message)
 
