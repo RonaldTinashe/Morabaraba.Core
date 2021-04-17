@@ -74,7 +74,7 @@ let getDefenceMills history =
     match history with
     | [] -> []
     | [_] -> []
-    | _ :: ({ Player = defender } :: _ as defenceHistory)-> 
+    | _ :: ({ Player = defender } :: _ as defenceHistory) -> 
         getMills defenceHistory defender.Shade
 
 let getShootingMills history =
