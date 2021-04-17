@@ -3,13 +3,13 @@ module Morabaraba.Core.Playing
 open Initialisation
 
 let occupy junction shade occupations = 
-    if Map.containsKey junction occupations then Error UnexpectedPlacement
+    if Map.containsKey junction occupations then Error UnexpectedOccupation
     else Map.add junction shade occupations |> Ok
 
 let empty target occupations = 
     if Map.containsKey target occupations then 
         Map.remove target occupations |> Ok
-    else Error UnexpectedShot
+    else Error UnexpectedEmptying
 
 let getPlayer history = 
     match history with
@@ -97,16 +97,16 @@ let place junction history =
                     Player = decrementHand player
                 } |> Ok
             Result.bind occupationBinder occupations
-        else Error UnexpectedPlacement
+        else Error UnexpectedOccupation
     Result.bind (fun event -> event :: history |> Ok ) event
 
 let shoot target history =
     if getShootingMills history |> List.isEmpty ||
         getDefenceMills history |> List.exists (List.contains target) then
-        Error UnexpectedShot 
+        Error UnexpectedEmptying 
     else
         match history with
-        | [] -> Error UnexpectedShot
+        | [] -> Error UnexpectedEmptying
         | { Occupations = occupations } as event :: history ->
             let occupations = empty target occupations
             let occupationBinder event history occupations =

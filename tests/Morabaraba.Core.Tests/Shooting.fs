@@ -114,9 +114,9 @@ let ``unsuccessful shooting`` =
                                 Player = { Shade = Dark; Cows = 11 }
                             }
                         ]
-                    let expected = Error UnexpectedShot
+                    let expected = Error UnexpectedEmptying
                     let actual = play move history
-                    let message = "Error UnexpectedShot should be output"
+                    let message = "Error UnexpectedEmptying should be output"
                     Expect.equal actual expected message)
 
             testCase
@@ -185,9 +185,9 @@ let ``unsuccessful shooting`` =
                                 Player = { Shade = Dark; Cows = 11 }
                             }
                         ]
-                    let expected = Error UnexpectedShot
+                    let expected = Error UnexpectedEmptying
                     let actual = play move history
-                    let message = "Error UnexpectedShot should be output"
+                    let message = "Error UnexpectedEmptying should be output"
                     Expect.equal actual expected message)
             
             testCase
@@ -270,9 +270,9 @@ let ``unsuccessful shooting`` =
                                 Player = { Shade = Dark; Cows = 11 }
                             }
                         ]
-                    let expected = Error UnexpectedShot
+                    let expected = Error UnexpectedEmptying
                     let actual = play move history
-                    let message = "Error UnexpectedShot should be output"
+                    let message = "Error UnexpectedEmptying should be output"
                     Expect.equal actual expected message)
 
             testCase
@@ -316,8 +316,8 @@ let ``unsuccessful shooting`` =
                                 Player = { Shade = Dark; Cows = 11 }
                             }
                         ]
-                    let expected = Error UnexpectedShot
+                    let expected = Error UnexpectedEmptying
                     let actual = play move history
-                    let message = "Error UnexpectedShot should be output"
+                    let message = "Error UnexpectedEmptying should be output"
                     Expect.equal actual expected message)
         ]

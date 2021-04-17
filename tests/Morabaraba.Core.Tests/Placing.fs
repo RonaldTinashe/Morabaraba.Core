@@ -8,7 +8,7 @@ open Morabaraba.Core.Playing
 let optionToResult = 
     function
     | Some value -> Ok value
-    | None -> Error UnexpectedPlacement
+    | None -> Error UnexpectedOccupation
 
 /// Act for the tests
 let actForShade move history junction =
@@ -142,7 +142,7 @@ let ``count-related tests`` =
             testCase
                 "Placement with 0 cows"
                 (fun () ->
-                    let expected = Error UnexpectedPlacement
+                    let expected = Error UnexpectedOccupation
                     let actual =
                         let junction = 1
                         let move = { Main = Placement junction; Shot = None }
@@ -209,8 +209,7 @@ let ``failure cases`` =
                             }
                         ]
                     let message = "Error UnxpectedPlacement expected"
-                    let expected = Error UnexpectedPlacement
+                    let expected = Error UnexpectedOccupation
                     let actual = play move history
                     Expect.equal expected actual message)
         ]
-        
