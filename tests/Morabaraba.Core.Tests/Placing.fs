@@ -191,4 +191,26 @@ let ``failure cases`` =
                     let message = 
                         "Function should throw invalid argument exception"
                     Expect.throwsT<ArgumentException> actor message)
+
+            testCase
+                "fail when junction is occupied"
+                (fun () ->
+                    let junction = 1
+                    let move = { Main = Placement junction; Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations =
+                                    Map.ofList
+                                        [
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let message = "Error UnxpectedPlacement expected"
+                    let expected = Error UnexpectedPlacement
+                    let actual = play move history
+                    Expect.equal expected actual message)
         ]
+        

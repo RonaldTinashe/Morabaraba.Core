@@ -2,7 +2,9 @@ module Morabaraba.Core.Playing
 
 open Initialisation
 
-let occupy junction shade occupations = Map.add junction shade occupations
+let occupy junction shade occupations = 
+    if Map.containsKey junction occupations then Error UnexpectedPlacement
+    else Map.add junction shade occupations |> Ok
 
 let empty target occupations = Map.remove target occupations
 
@@ -83,10 +85,14 @@ let place junction history =
     let event =
         let occupations, player = getTurn history
         if player.Cows > 0 then
-            {
-                Occupations = occupy junction player.Shade occupations
-                Player = { player with Cows = player.Cows - 1 }
-            } |> Ok
+            let occupations = occupy junction player.Shade occupations
+            match occupations with
+            | Ok occupations ->
+                {
+                    Occupations = occupations
+                    Player = { player with Cows = player.Cows - 1 }
+                } |> Ok
+            | Error error -> Error error
         else Error UnexpectedPlacement
     Result.bind (fun event -> event :: history |> Ok ) event
 
