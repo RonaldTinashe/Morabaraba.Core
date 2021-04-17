@@ -187,6 +187,6 @@ let ``unsuccessful shooting`` =
                         ]
                     let expected = Error UnexpectedShot
                     let actual = play move history
-                    let message = "Dark cow should be placed"
+                    let message = "Error UnexpectedShot should be output"
                     Expect.equal actual expected message)
         ]
