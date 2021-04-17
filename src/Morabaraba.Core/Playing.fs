@@ -34,8 +34,48 @@ let place history junction =
         else Error UnexpectedPlacement
     Result.bind (fun event -> event :: history |> Ok ) event
 
-let shoot target history =
+let lines =
+    let rows =
+        seq 
+            { 
+                for start in seq { 1 .. 3 .. 24 } do 
+                    [start; start + 1; start + 2] 
+            }
+    let columns =
+        [
+            [ 1; 10; 22 ] // starts at outer ring
+            [ 2; 5; 8 ]
+            [ 3; 15; 24 ]
+            [ 4; 11; 19 ] // starts at mid ring
+            [ 6; 14; 21 ]
+            [ 7; 12; 16 ] // starts at inner ring
+            [ 9; 13; 18 ]
+            [ 17; 20; 23 ]
+        ]
+    let diagonals =
+        seq
+            { 
+                for start in [1; 3; 16] do
+                    [start; start + 3; start + 6]
+            }
+    seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
+
+let mills history =
     match history with
+    | [] -> []
+    | { Occupations = occupations; Player = player } :: _ ->
+        let millFilter occupations player line = 
+            List.forall 
+                (fun junction -> 
+                    Map.containsKey junction occupations &&
+                    occupations.[junction] = player.Shade)
+                line
+        List.filter (millFilter occupations player) lines
+
+let shoot target history =
+    if mills history |> List.isEmpty then Error UnexpectedShot
+    else
+        match history with
         | [] -> Error UnexpectedShot
         | { Occupations = occupations } as event :: history ->
             let occupations = Map.remove target occupations
