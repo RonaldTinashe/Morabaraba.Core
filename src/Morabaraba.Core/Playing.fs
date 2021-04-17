@@ -34,7 +34,17 @@ let place history junction =
         else Error UnexpectedPlacement
     Result.bind (fun event -> event :: history |> Ok ) event
 
-let play { Main = mainMove } history =
-    match mainMove with
-    | Placement junction -> place history junction
-    
+let play move history =
+    match move with
+    | { Main = Placement junction; Shot = None } -> place history junction
+    | { Main = Placement junction; Shot = Some target } ->
+        let history = place history junction
+        Result.bind 
+            (fun history ->
+                match history with
+                | [] -> Error UnexpectedShot
+                | { Occupations = occupations } as event :: history ->
+                    let occupations = Map.remove target occupations
+                    Ok ({ event with Occupations = occupations } :: history))
+            history
+            

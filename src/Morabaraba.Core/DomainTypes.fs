@@ -16,4 +16,4 @@ type Move = { Main : MainMove; Shot : int option }
 /// Models a single historical event
 type Event = { Occupations : Map<int, Shade>; Player : Player }
 
-type Error = UnexpectedPlacement
+type Error = UnexpectedPlacement | UnexpectedShot
