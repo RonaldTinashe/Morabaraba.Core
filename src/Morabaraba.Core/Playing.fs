@@ -48,7 +48,21 @@ let lines =
             }
     seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
 
-let mills history =
+let getDefenceMills history =
+    let millFilter occupations player line = 
+        List.forall 
+            (fun junction -> 
+                Map.containsKey junction occupations &&
+                occupations.[junction] = player.Shade)
+            line
+    match history with
+    | _ :: { Occupations = defenceOccupations; Player = defender } :: _ ->
+        let defenceMills = 
+            List.filter (millFilter defenceOccupations defender) lines
+        defenceMills
+    | _ -> []
+
+let getShootingMills history =
     let millFilter occupations player line = 
         List.forall 
             (fun junction -> 
@@ -79,7 +93,9 @@ let place junction history =
     Result.bind (fun event -> event :: history |> Ok ) event
 
 let shoot target history =
-    if mills history |> List.isEmpty then Error UnexpectedShot
+    if getShootingMills history |> List.isEmpty ||
+        getDefenceMills history |> List.exists (List.contains target) then
+        Error UnexpectedShot 
     else
         match history with
         | [] -> Error UnexpectedShot
