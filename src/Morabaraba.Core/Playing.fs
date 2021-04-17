@@ -24,6 +24,6 @@ let play { Main = mainMove } history =
                 Player = { player with Cows = player.Cows - 1 }
             } :: history
         Some history
-    match mainMove, history with
-    | Placement junction, _ -> place history junction
+    match mainMove with
+    | Placement junction -> place history junction
     
