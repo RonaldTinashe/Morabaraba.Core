@@ -109,24 +109,12 @@ let ``placemet by dark player`` =
                         let junction = 8
                         let move = { Main = Placement junction; Shot = None }
                         let history =
-                            let occupations = Map.add 4 Dark Map.empty
-                            let history =
-                                {
-                                    Occupations = occupations
-                                    Player = { Shade = Dark; Cows = 11 }
-                                } :: []
-                            let occupations = Map.add 5 Light occupations
-                            let history =
-                                {
-                                    Occupations = occupations
-                                    Player = { Shade = Light; Cows = 11 }
-                                } :: history
-                            let occupations = Map.add 6 Dark occupations
+                            let occupations = Map.add 6 Dark Map.empty
                             let history =
                                 {
                                     Occupations = occupations
                                     Player = { Shade = Dark; Cows = 10 }
-                                } :: history
+                                } :: []
                             let occupations = Map.add 7 Light occupations
                             let history =
                                 {
