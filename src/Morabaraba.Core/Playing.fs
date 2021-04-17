@@ -75,8 +75,7 @@ let getShootingMills history =
         let previousMills = 
             List.filter (filterMills previousOccupations player) lines
         List.except previousMills currentMills
-    | { Occupations = occupations; Player = player } :: _ ->
-        List.filter (filterMills occupations player) lines
+    | history -> getMills history
 
 let place junction history =
     validate junction
