@@ -15,17 +15,19 @@ let play { Main = mainMove } history =
         match history with
         | [] -> initial.Occupations
         | event :: _ -> event.Occupations
-    match mainMove, history with
-    // Dark player's second turn
-    | Placement junction, { Player = { Shade = Light }} :: _ ->
+    let place history junction count =
         let history =
             let occupations = getOccupations history
             let player = getPlayer history
             {
                 Occupations = occupy junction player.Shade occupations
-                Player = { player with Cows = 10 }
+                Player = { player with Cows = count }
             } :: history
         Some history
+    match mainMove, history with
+    // Dark player's second turn
+    | Placement junction, { Player = { Shade = Light }} :: _ ->
+        place history junction 10
     // All turns but the dark player's second turn
     | Placement junction, _ ->
         let history =
