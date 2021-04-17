@@ -4,6 +4,14 @@ open Expecto
 open Morabaraba.Core
 open Morabaraba.Core.Playing
 
+/// Act for the tests
+let act move history junction =
+    play move history |> 
+    let eventBinder history = List.tryHead history
+    let occupationBinder event =  Map.tryFind junction event.Occupations
+    Option.bind eventBinder >> Option.bind occupationBinder
+
+
 [<Tests>]
 let ``placement on board`` =
     testList 
@@ -14,13 +22,10 @@ let ``placement on board`` =
                 (fun () -> 
                     let expected = Some Dark
                     let actual =
-                        let move = { Main = Placement 4; Shot = None }
+                        let junction = 4
+                        let move = { Main = Placement junction; Shot = None }
                         let history = []
-                        play move history |> 
-                        let eventBinder history = List.tryHead history
-                        let occupationBinder event = 
-                            Map.tryFind 4 event.Occupations
-                        Option.bind eventBinder >> Option.bind occupationBinder
+                        act move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
 
@@ -29,13 +34,10 @@ let ``placement on board`` =
                 (fun () -> 
                     let expected = Some Dark
                     let actual =
-                        let move = { Main = Placement 1; Shot = None }
+                        let junction = 1
+                        let move = { Main = Placement junction; Shot = None }
                         let history = []
-                        play move history |> 
-                        let eventBinder history = List.tryHead history
-                        let occupationBinder event = 
-                            Map.tryFind 1 event.Occupations
-                        Option.bind eventBinder >> Option.bind occupationBinder
+                        act move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
@@ -50,7 +52,8 @@ let ``placement by light player`` =
                 (fun () -> 
                     let expected = Some Light
                     let actual =
-                        let move = { Main = Placement 1; Shot = None }
+                        let junction = 1
+                        let move = { Main = Placement junction; Shot = None }
                         let history = 
                             [ 
                                 { 
@@ -58,12 +61,7 @@ let ``placement by light player`` =
                                     Player = { Shade = Dark; Cows = 11 }
                                 }
                             ]
-                        play move history |> 
-                        let eventBinder history = List.tryHead history
-                        let occupationBinder event = 
-                          Map.tryFind 1 event.Occupations
-                        Option.bind eventBinder >> 
-                        Option.bind occupationBinder
+                        act move history junction
                     let message = "Light cow should be placed"
                     Expect.equal actual expected message)
         ]
@@ -78,7 +76,8 @@ let ``placemet by dark player`` =
                 (fun () ->
                     let expected = Some Dark
                     let actual =
-                        let move = { Main = Placement 3; Shot = None }
+                        let junction = 3
+                        let move = { Main = Placement junction; Shot = None }
                         let history =
                             let darkOccupation = Map.add 10 Dark Map.empty
                             let occupations = Map.add 2 Light darkOccupation
@@ -92,12 +91,7 @@ let ``placemet by dark player`` =
                                     Player = { Shade = Dark; Cows = 11 }
                                 }
                             ]
-                        play move history |>
-                        let eventBinder history = List.tryHead history
-                        let occupationBinder event = 
-                          Map.tryFind 3 event.Occupations
-                        Option.bind eventBinder >> 
-                        Option.bind occupationBinder
+                        act move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
