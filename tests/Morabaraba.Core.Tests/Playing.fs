@@ -5,7 +5,7 @@ open Morabaraba.Core
 open Morabaraba.Core.Playing
 
 /// Act for the tests
-let act move history junction =
+let actForShade move history junction =
     play move history |> 
     let eventBinder history = List.tryHead history
     let occupationBinder event =  Map.tryFind junction event.Occupations
@@ -31,7 +31,7 @@ let ``placement on board`` =
                         let junction = 4
                         let move = { Main = Placement junction; Shot = None }
                         let history = []
-                        act move history junction
+                        actForShade move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
 
@@ -43,7 +43,7 @@ let ``placement on board`` =
                         let junction = 1
                         let move = { Main = Placement junction; Shot = None }
                         let history = []
-                        act move history junction
+                        actForShade move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
@@ -67,7 +67,7 @@ let ``placement by light player`` =
                                     Player = { Shade = Dark; Cows = 11 }
                                 }
                             ]
-                        act move history junction
+                        actForShade move history junction
                     let message = "Light cow should be placed"
                     Expect.equal actual expected message)
         ]
@@ -97,7 +97,7 @@ let ``placemet by dark player`` =
                                     Player = { Shade = Dark; Cows = 11 }
                                 }
                             ]
-                        act move history junction
+                        actForShade move history junction
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
 
