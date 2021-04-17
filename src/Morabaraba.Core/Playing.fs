@@ -6,7 +6,10 @@ let occupy junction shade occupations =
     if Map.containsKey junction occupations then Error UnexpectedPlacement
     else Map.add junction shade occupations |> Ok
 
-let empty target occupations = Map.remove target occupations
+let empty target occupations = 
+    if Map.containsKey target occupations then 
+        Map.remove target occupations |> Ok
+    else Error UnexpectedShot
 
 let getPlayer history = 
     match history with
@@ -106,7 +109,9 @@ let shoot target history =
         | [] -> Error UnexpectedShot
         | { Occupations = occupations } as event :: history ->
             let occupations = empty target occupations
-            Ok ({ event with Occupations = occupations } :: history)
+            let occupationBinder event history occupations =
+                { event with Occupations = occupations } :: history |> Ok
+            Result.bind (occupationBinder event history) occupations
 
 let play move history =
     match move with
