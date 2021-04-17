@@ -200,6 +200,33 @@ let ``unsuccessful shooting`` =
                                 Occupations = 
                                     Map.ofList 
                                         [
+                                            24, Dark
+                                            23, Light
+                                            3, Dark
+                                            5, Light
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Dark; Cows = 8 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
+                                            23, Light
+                                            3, Dark
+                                            5, Light
+                                            2, Dark
+                                            4, Light
+                                            1, Dark
+                                        ]
+                                Player = { Shade = Light; Cows = 9 }
+                            }
+                            {
+                                Occupations = 
+                                    Map.ofList 
+                                        [
                                             3, Dark
                                             5, Light
                                             2, Dark
