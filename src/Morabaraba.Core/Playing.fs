@@ -28,7 +28,7 @@ let play { Main = mainMove } history =
         let history = 
             {
                 Occupations = occupy junction Light occupations
-                Player = { Shade = Light; Cows = 11 }
+                Player = { getPlayer history with Cows = 11 }
             } :: history
         Some history
     // Dark player's turn
