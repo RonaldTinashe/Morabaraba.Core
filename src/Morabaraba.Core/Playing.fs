@@ -20,7 +20,7 @@ let getTurn history = getOccupations history, getPlayer history
 
 let place history junction =
     let event =
-        if junction > 0 then
+        if junction > 0 && junction < 25 then
             let occupations, player = getTurn history
             if player.Cows > 0 then
                 {

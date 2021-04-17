@@ -180,4 +180,15 @@ let ``failure cases`` =
                     let message = 
                         "Function should throw invalid argument exception"
                     Expect.throwsT<ArgumentException> actor message)
+
+            testCase
+                "fail when junction is > 23"
+                (fun () ->
+                    let junction = 25
+                    let move = { Main = Placement junction; Shot = None }
+                    let history = []
+                    let actor () = play move history |> ignore
+                    let message = 
+                        "Function should throw invalid argument exception"
+                    Expect.throwsT<ArgumentException> actor message)
         ]
