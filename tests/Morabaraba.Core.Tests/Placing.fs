@@ -5,25 +5,13 @@ open Expecto
 open Morabaraba.Core
 open Morabaraba.Core.Playing
 
-let optionToResult = 
-    function
-    | Some value -> Ok value
-    | None -> Error UnexpectedOccupation
-
-/// Act for the tests involving cow count
-let actForCowCount move history =
-    play move history |> 
-    let eventBinder history = List.tryHead history |> optionToResult
-    let cowBinder event =  Ok event.Player.Cows
-    Result.bind eventBinder >> Result.bind cowBinder
-
 [<Tests>]
 let ``placement on board`` =
     testList 
         "Placing on an empty board"
         [   
             testCase
-                "Placement by dark player on empty board's 4th junction"
+                "placement by dark player on empty board's 4th junction"
                 (fun () -> 
                     let junction = 4
                     let move = { Main = Placement junction; Shot = None }
@@ -40,7 +28,7 @@ let ``placement on board`` =
                     Expect.equal actual expected message)
 
             testCase
-                "Placement by dark player on empty board's 1st junction"
+                "placement by dark player on empty board's 1st junction"
                 (fun () ->
                     let junction = 1
                     let move = { Main = Placement junction; Shot = None }
@@ -60,10 +48,10 @@ let ``placement on board`` =
 [<Tests>]
 let ``placement by light player`` =
     testList
-        "Placement by light player"
+        "placement by light player"
         [
             testCase
-                "Placement by light player on a board's 1st junction"
+                "placement by light player on a board's 1st junction"
                 (fun () -> 
                     let junction = 1
                     let move = { Main = Placement junction; Shot = None }
@@ -91,10 +79,10 @@ let ``placement by light player`` =
 [<Tests>]
 let ``placement by dark player`` =
     testList
-        "Placement by dark player"
+        "placement by dark player"
         [
             testCase
-                "Placement by dark player on a board's 3rd junction"
+                "placement by dark player on a board's 3rd junction"
                 (fun () ->
                     let junction = 3
                     let move = { Main = Placement junction; Shot = None }
@@ -131,10 +119,10 @@ let ``placement by dark player`` =
 [<Tests>]
 let ``count-related tests`` =
     testList
-        "Placement cannot take place with no cows"
+        "placement cannot take place with no cows"
         [
             testCase
-                "Placement after 4 turns on a board's 8th junction"
+                "placement after 4 turns on a board's 8th junction"
                 (fun () ->
                     let junction = 8
                     let move = { Main = Placement junction; Shot = None }
@@ -215,7 +203,7 @@ let ``count-related tests`` =
         ]
 
 [<Tests>]
-let ``failure cases`` =
+let ``failure and error cases`` =
     testList
         "fail when invalid data is provided"
         [
@@ -242,7 +230,7 @@ let ``failure cases`` =
                     Expect.throwsT<ArgumentException> actor message)
 
             testCase
-                "fail when junction is occupied"
+                "error when junction is occupied"
                 (fun () ->
                     let junction = 1
                     let move = { Main = Placement junction; Shot = None }
