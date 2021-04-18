@@ -153,13 +153,10 @@ let move source destination history =
             occupiedOccupations
         
 let play move' history =
-    match move' with
-    | { Main = Placement junction; Shot = None } -> place junction history
-    | { Main = Placement junction; Shot = Some target } ->
-        let history = place junction history
-        Result.bind (shoot target) history
-    | { Main = Movement (source, destination); Shot = None } ->
-        move source destination history
-    | { Main = Movement (source, destination); Shot = Some target } ->
-        let history = move source destination history
-        Result.bind (shoot target) history
+    let history =
+        match move'.Main with
+        | Placement junction -> place junction history
+        | Movement (source, destination) -> move source destination history
+    match move'.Shot with
+    | Some target -> Result.bind (shoot target) history
+    | None -> history
