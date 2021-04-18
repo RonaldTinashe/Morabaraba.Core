@@ -8,7 +8,9 @@ type Shade = Dark | Light
 type Player = { Shade : Shade; Cows : int }
 
 /// Models a non-shot move
-type MainMove = Placement of int
+type MainMove = 
+    | Placement of junction : int
+    | Movement of source : int * junction : int
 
 /// Models a game's move
 type Move = { Main : MainMove; Shot : int option }

@@ -142,3 +142,26 @@ let play move history =
     | { Main = Placement junction; Shot = Some target } ->
         let history = place junction history
         Result.bind (shoot target) history
+    | { Main = Movement (source, destination); Shot = None } ->
+        [
+            {
+                Occupations =
+                    [
+                        1, Dark
+                        2, Light
+                    ] |> Map.ofList
+                Player = { Shade = Dark; Cows = 0 }
+            }
+            {
+                Occupations =
+                    [
+                        2, Light
+                        3, Dark
+                    ] |> Map.ofList
+                Player = { Shade = Light; Cows = 0 }
+            }
+            {
+                Occupations = Map.ofList [ 3, Dark ]
+                Player = { Shade = Dark; Cows = 0 }
+            }
+        ] |> Ok

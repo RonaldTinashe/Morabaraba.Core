@@ -10,6 +10,7 @@
     <Compile Include="Initialisation.fs" />
     <Compile Include="Placing.fs" />
     <Compile Include="Shooting.fs" />
+    <Compile Include="Moving.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
 
