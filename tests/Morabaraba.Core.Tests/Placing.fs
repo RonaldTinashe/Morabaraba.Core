@@ -104,24 +104,34 @@ let ``placement by dark player`` =
             testCase
                 "Placement by dark player on a board's 3rd junction"
                 (fun () ->
-                    let expected = Ok Dark
-                    let actual =
-                        let junction = 3
-                        let move = { Main = Placement junction; Shot = None }
-                        let history =
-                            let darkOccupation = Map.add 10 Dark Map.empty
-                            let occupations = Map.add 2 Light darkOccupation
-                            [
-                                {
-                                    Occupations = occupations
-                                    Player = { Shade = Light; Cows = 11 }
-                                }           
-                                { 
-                                    Occupations = darkOccupation
-                                    Player = { Shade = Dark; Cows = 11 }
-                                }
-                            ]
-                        actForShade move history junction
+                    let junction = 3
+                    let move = { Main = Placement junction; Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations =
+                                    [
+                                        2, Light
+                                        10, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 11 }
+                            }           
+                            { 
+                                Occupations = Map.ofList [ 10, Dark ]
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let expected =
+                        {
+                            Occupations =
+                                [
+                                    3, Dark
+                                    2, Light
+                                    10, Dark
+                                ] |> Map.ofList
+                            Player = { Shade = Dark; Cows = 10 }
+                        } :: history |> Ok
+                    let actual = play move history
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
