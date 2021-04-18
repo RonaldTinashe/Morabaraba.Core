@@ -33,12 +33,18 @@ let ``placement on board`` =
             testCase
                 "Placement by dark player on empty board's 4th junction"
                 (fun () -> 
-                    let expected = Ok Dark
+                    let expected =
+                        [
+                            {
+                                Occupations = Map.ofList [ 4, Dark ]
+                                Player = { Shade = Dark; Cows = 11}
+                            }
+                        ] |> Ok
                     let actual =
                         let junction = 4
                         let move = { Main = Placement junction; Shot = None }
                         let history = []
-                        actForShade move history junction
+                        play move history 
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
 
