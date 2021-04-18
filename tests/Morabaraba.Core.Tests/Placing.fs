@@ -189,7 +189,7 @@ let ``count-related tests`` =
                     Expect.equal actual expected message)
 
             testCase
-                "Placement with 0 cows"
+                "placement with 0 cows"
                 (fun () ->
                     let junction = 1
                     let move = { Main = Placement junction; Shot = None }
