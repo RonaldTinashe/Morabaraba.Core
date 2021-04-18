@@ -137,6 +137,8 @@ let shoot target history =
             Result.bind (occupationBinder event history) occupations
 
 let move source destination history =
+    validate source
+    validate destination
     match history with
     | [] -> Error UnexpectedEmptying
     | history ->
