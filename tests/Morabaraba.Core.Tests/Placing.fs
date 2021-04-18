@@ -10,14 +10,6 @@ let optionToResult =
     | Some value -> Ok value
     | None -> Error UnexpectedOccupation
 
-/// Act for the tests
-let actForShade move history junction =
-    play move history |> 
-    let eventBinder history = List.tryHead history |> optionToResult
-    let occupationBinder event = 
-        Map.tryFind junction event.Occupations |> optionToResult
-    Result.bind eventBinder >> Result.bind occupationBinder
-
 /// Act for the tests involving cow count
 let actForCowCount move history =
     play move history |> 
@@ -144,25 +136,55 @@ let ``count-related tests`` =
             testCase
                 "Placement after 4 turns on a board's 8th junction"
                 (fun () ->
-                    let expected = Ok 9
-                    let actual =
-                        let junction = 8
-                        let move = { Main = Placement junction; Shot = None }
-                        let history =
-                            let occupations = Map.add 6 Dark Map.empty
-                            let history =
-                                {
-                                    Occupations = occupations
-                                    Player = { Shade = Dark; Cows = 10 }
-                                } :: []
-                            let occupations = Map.add 7 Light occupations
-                            let history =
-                                {
-                                    Occupations = occupations
-                                    Player = { Shade = Light; Cows = 10 }
-                                } :: history
-                            history
-                        actForCowCount move history
+                    let junction = 8
+                    let move = { Main = Placement junction; Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations = 
+                                    [
+                                        7, Light
+                                        6, Dark
+                                        2, Light
+                                        1, Dark 
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 10 }
+                            }
+                            {
+                                Occupations = 
+                                    [
+                                        6, Dark
+                                        2, Light
+                                        1, Dark 
+                                    ] |> Map.ofList
+                                Player = { Shade = Dark; Cows = 10 }
+                            }
+                            {
+                                Occupations = 
+                                    [
+                                        2, Light
+                                        1, Dark 
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 11 }
+                            }
+                            {
+                                Occupations = Map.ofList [ 1, Dark ]
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let expected =
+                        {
+                            Occupations =
+                                [
+                                    junction, Dark
+                                    7, Light
+                                    6, Dark
+                                    2, Light
+                                    1, Dark 
+                                ] |> Map.ofList
+                            Player = { Shade = Dark; Cows = 9 }
+                        } :: history |> Ok
+                    let actual = play move history
                     let message = "Dark cow must be placed"
                     Expect.equal actual expected message)
 
