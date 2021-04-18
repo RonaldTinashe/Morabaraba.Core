@@ -144,13 +144,13 @@ let move source destination history =
         let emptiedOccupations = empty source occupations
         let occupiedOccupations =
             Result.bind (occupy destination player.Shade) emptiedOccupations
-        match occupiedOccupations with
-        | Ok occupiedOccupations -> 
-            {
-                Occupations = occupiedOccupations
-                Player = player
-            } :: history |> Ok
-        | Error error -> Error error
+        Result.bind 
+            (fun occupiedOccupations -> 
+                {
+                    Occupations = occupiedOccupations
+                    Player = player
+                } :: history |> Ok)
+            occupiedOccupations
         
 let play move' history =
     match move' with
