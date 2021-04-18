@@ -160,3 +160,6 @@ let play move' history =
         Result.bind (shoot target) history
     | { Main = Movement (source, destination); Shot = None } ->
         move source destination history
+    | { Main = Movement (source, destination); Shot = Some target } ->
+        let history = move source destination history
+        Result.bind (shoot target) history
