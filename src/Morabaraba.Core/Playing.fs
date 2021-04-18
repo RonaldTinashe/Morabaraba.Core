@@ -147,21 +147,21 @@ let play move history =
             {
                 Occupations =
                     [
-                        1, Dark
-                        2, Light
+                        destination, Dark
+                        3, Light
                     ] |> Map.ofList
                 Player = { Shade = Dark; Cows = 0 }
             }
             {
                 Occupations =
                     [
-                        2, Light
-                        3, Dark
+                        3, Light
+                        source, Dark
                     ] |> Map.ofList
                 Player = { Shade = Light; Cows = 0 }
             }
             {
-                Occupations = Map.ofList [ 3, Dark ]
+                Occupations = Map.ofList [ source, Dark ]
                 Player = { Shade = Dark; Cows = 0 }
             }
         ] |> Ok

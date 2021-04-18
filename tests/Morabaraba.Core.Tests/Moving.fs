@@ -21,13 +21,13 @@ let ``successful movement tests`` =
                             {
                                 Occupations =
                                     [
-                                        2, Light
-                                        3, Dark
+                                        3, Light
+                                        source, Dark
                                     ] |> Map.ofList
                                 Player = { Shade = Light; Cows = 0 }
                             }
                             {
-                                Occupations = Map.ofList [ 3, Dark ]
+                                Occupations = Map.ofList [ source, Dark ]
                                 Player = { Shade = Dark; Cows = 0 }
                             }
                         ]
@@ -35,8 +35,8 @@ let ``successful movement tests`` =
                         {
                             Occupations =
                                 [
-                                    1, Dark
-                                    2, Light
+                                    destination, Dark
+                                    3, Light
                                 ] |> Map.ofList
                             Player = { Shade = Dark; Cows = 0 }
                         } :: history |> Ok
@@ -44,4 +44,3 @@ let ``successful movement tests`` =
                     let message = "Dark cow should be moved"
                     Expect.equal actual expected message)
         ]
-        
