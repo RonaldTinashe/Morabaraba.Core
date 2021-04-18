@@ -73,18 +73,25 @@ let ``placement by light player`` =
             testCase
                 "Placement by light player on a board's 1st junction"
                 (fun () -> 
-                    let expected = Ok Light
-                    let actual =
-                        let junction = 1
-                        let move = { Main = Placement junction; Shot = None }
-                        let history = 
-                            [ 
-                                { 
-                                    Occupations = Map.add 10 Dark Map.empty
-                                    Player = { Shade = Dark; Cows = 11 }
-                                }
-                            ]
-                        actForShade move history junction
+                    let junction = 1
+                    let move = { Main = Placement junction; Shot = None }
+                    let history = 
+                        [ 
+                            { 
+                                Occupations = Map.add 10 Dark Map.empty
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let expected =
+                        {
+                            Occupations =
+                                [
+                                    1, Light
+                                    10, Dark
+                                ] |> Map.ofList
+                            Player = { Shade = Light; Cows = 11}
+                        } :: history |> Ok
+                    let actual = play move history
                     let message = "Light cow should be placed"
                     Expect.equal actual expected message)
         ]
