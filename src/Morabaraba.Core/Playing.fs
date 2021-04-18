@@ -136,32 +136,35 @@ let shoot target history =
                 { event with Occupations = occupations } :: history |> Ok
             Result.bind (occupationBinder event history) occupations
 
-let play move history =
-    match move with
+let move source destination history =
+    [
+        {
+            Occupations =
+                [
+                    destination, Dark
+                    3, Light
+                ] |> Map.ofList
+            Player = { Shade = Dark; Cows = 0 }
+        }
+        {
+            Occupations =
+                [
+                    3, Light
+                    source, Dark
+                ] |> Map.ofList
+            Player = { Shade = Light; Cows = 0 }
+        }
+        {
+            Occupations = Map.ofList [ source, Dark ]
+            Player = { Shade = Dark; Cows = 0 }
+        }
+    ] |> Ok
+        
+let play move' history =
+    match move' with
     | { Main = Placement junction; Shot = None } -> place junction history
     | { Main = Placement junction; Shot = Some target } ->
         let history = place junction history
         Result.bind (shoot target) history
     | { Main = Movement (source, destination); Shot = None } ->
-        [
-            {
-                Occupations =
-                    [
-                        destination, Dark
-                        3, Light
-                    ] |> Map.ofList
-                Player = { Shade = Dark; Cows = 0 }
-            }
-            {
-                Occupations =
-                    [
-                        3, Light
-                        source, Dark
-                    ] |> Map.ofList
-                Player = { Shade = Light; Cows = 0 }
-            }
-            {
-                Occupations = Map.ofList [ source, Dark ]
-                Player = { Shade = Dark; Cows = 0 }
-            }
-        ] |> Ok
+        move source destination history
