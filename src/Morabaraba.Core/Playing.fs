@@ -144,7 +144,7 @@ let move source destination history =
         let emptiedOccupations = empty source occupations
         let occupiedOccupations =
             match emptiedOccupations with
-            | Ok occupations -> occupy destination Dark occupations
+            | Ok occupations -> occupy destination player.Shade occupations
             | Error error -> Error error
         match occupiedOccupations with
         | Ok occupiedOccupations -> 
