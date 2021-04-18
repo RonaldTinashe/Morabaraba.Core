@@ -139,7 +139,8 @@ let shoot target history =
 let move source destination history =
     match history with
     | [] -> Error UnexpectedEmptying
-    | { Occupations = occupations } :: _ ->
+    | history ->
+        let occupations, player = getTurn history
         let emptiedOccupations = empty source occupations
         let occupiedOccupations =
             match emptiedOccupations with
@@ -149,7 +150,7 @@ let move source destination history =
         | Ok occupiedOccupations -> 
             {
                 Occupations = occupiedOccupations
-                Player = { Shade = Dark; Cows = 0 }
+                Player = player
             } :: history |> Ok
         | Error error -> Error error
         
