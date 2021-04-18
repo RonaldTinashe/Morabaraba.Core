@@ -33,6 +33,9 @@ let ``placement on board`` =
             testCase
                 "Placement by dark player on empty board's 4th junction"
                 (fun () -> 
+                    let junction = 4
+                    let move = { Main = Placement junction; Shot = None }
+                    let history = []
                     let expected =
                         [
                             {
@@ -40,23 +43,24 @@ let ``placement on board`` =
                                 Player = { Shade = Dark; Cows = 11}
                             }
                         ] |> Ok
-                    let actual =
-                        let junction = 4
-                        let move = { Main = Placement junction; Shot = None }
-                        let history = []
-                        play move history 
+                    let actual = play move history
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
 
             testCase
                 "Placement by dark player on empty board's 1st junction"
-                (fun () -> 
-                    let expected = Ok Dark
-                    let actual =
-                        let junction = 1
-                        let move = { Main = Placement junction; Shot = None }
-                        let history = []
-                        actForShade move history junction
+                (fun () ->
+                    let junction = 1
+                    let move = { Main = Placement junction; Shot = None }
+                    let history = []
+                    let expected =
+                        [
+                            {
+                                Occupations = Map.ofList [ 1, Dark ]
+                                Player = { Shade = Dark; Cows = 11}
+                            }
+                        ] |> Ok
+                    let actual = play move history
                     let message = "Dark cow should be placed"
                     Expect.equal actual expected message)
         ]
