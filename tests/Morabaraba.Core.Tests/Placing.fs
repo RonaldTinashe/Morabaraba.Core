@@ -39,7 +39,7 @@ let ``placement on board`` =
                     let expected =
                         [
                             {
-                                Occupations = Map.ofList [ 4, Dark ]
+                                Occupations = Map.ofList [ junction, Dark ]
                                 Player = { Shade = Dark; Cows = 11}
                             }
                         ] |> Ok
@@ -56,7 +56,7 @@ let ``placement on board`` =
                     let expected =
                         [
                             {
-                                Occupations = Map.ofList [ 1, Dark ]
+                                Occupations = Map.ofList [ junction, Dark ]
                                 Player = { Shade = Dark; Cows = 11}
                             }
                         ] |> Ok
@@ -86,7 +86,7 @@ let ``placement by light player`` =
                         {
                             Occupations =
                                 [
-                                    1, Light
+                                    junction, Light
                                     10, Dark
                                 ] |> Map.ofList
                             Player = { Shade = Light; Cows = 11}
@@ -125,7 +125,7 @@ let ``placement by dark player`` =
                         {
                             Occupations =
                                 [
-                                    3, Dark
+                                    junction, Dark
                                     2, Light
                                     10, Dark
                                 ] |> Map.ofList
