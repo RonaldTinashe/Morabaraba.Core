@@ -137,28 +137,21 @@ let shoot target history =
             Result.bind (occupationBinder event history) occupations
 
 let move source destination history =
-    [
-        {
-            Occupations =
-                [
-                    destination, Dark
-                    3, Light
-                ] |> Map.ofList
-            Player = { Shade = Dark; Cows = 0 }
-        }
-        {
-            Occupations =
-                [
-                    3, Light
-                    source, Dark
-                ] |> Map.ofList
-            Player = { Shade = Light; Cows = 0 }
-        }
-        {
-            Occupations = Map.ofList [ source, Dark ]
-            Player = { Shade = Dark; Cows = 0 }
-        }
-    ] |> Ok
+    match history with
+    | [] -> Error UnexpectedEmptying
+    | { Occupations = occupations } :: _ ->
+        let emptiedOccupations = empty source occupations
+        let occupiedOccupations =
+            match emptiedOccupations with
+            | Ok occupations -> occupy destination Dark occupations
+            | Error error -> Error error
+        match occupiedOccupations with
+        | Ok occupiedOccupations -> 
+            {
+                Occupations = occupiedOccupations
+                Player = { Shade = Dark; Cows = 0 }
+            } :: history |> Ok
+        | Error error -> Error error
         
 let play move' history =
     match move' with
