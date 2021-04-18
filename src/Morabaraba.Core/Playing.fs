@@ -143,9 +143,7 @@ let move source destination history =
         let occupations, player = getTurn history
         let emptiedOccupations = empty source occupations
         let occupiedOccupations =
-            match emptiedOccupations with
-            | Ok occupations -> occupy destination player.Shade occupations
-            | Error error -> Error error
+            Result.bind (occupy destination player.Shade) emptiedOccupations
         match occupiedOccupations with
         | Ok occupiedOccupations -> 
             {
