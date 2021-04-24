@@ -157,7 +157,8 @@ let shoot target history =
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
 
-let rawMove source destination occupations player history =
+let rawMove source destination history =
+    let occupations, player = getTurn history
     let emptiedOccupations = empty source occupations
     let occupiedOccupations =
         Result.bind (occupy destination player.Shade) emptiedOccupations
@@ -173,10 +174,10 @@ let move source destination history =
         areNeighbours source destination,
         isPlayerMovingOwnCow occupations player source with
     | history, Moving, true, true ->
-        rawMove source destination occupations player history
+        rawMove source destination history
     | _, Moving, false, _ -> Error UnexpectedOccupation
     | _, Flying, _, true -> 
-        rawMove source destination occupations player history
+        rawMove source destination history
     | _ -> Error UnexpectedEmptying
         
 let play move' history =
