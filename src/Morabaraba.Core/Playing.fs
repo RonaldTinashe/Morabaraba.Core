@@ -12,6 +12,25 @@ let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
 
+let isLegalMove history source destination =
+    match history with
+    | _ :: _ :: oldEvents ->
+        let _, { Shade = shade } = getTurn history
+        let oldMills = getMills oldEvents shade
+        let recentMills = getMills history shade
+        let isInMillPredicate junction mill =
+            match mill with
+            | [a; b; c] -> junction = a || junction = b || junction = c
+            | _ -> false
+        let isInMill junction mills = 
+            List.exists (isInMillPredicate junction) mills
+        let destinationWasInMill = isInMill destination oldMills
+        let destinationIsInMill = isInMill destination recentMills
+        let millWasBroken = destinationWasInMill && not destinationIsInMill
+        let sourceIsInMIll = isInMill source recentMills
+        (millWasBroken && sourceIsInMIll) |> not
+    | _ -> true
+
 let rawMove source destination history =
     let occupations, player = getTurn history
     let emptiedOccupations = empty source occupations
@@ -42,30 +61,12 @@ let shoot target history =
 let move source destination history =
     validateJunction source
     validateJunction destination
-    let isLegalMove history =
-        match history with
-        | _ :: _ :: oldEvents ->
-            let _, { Shade = shade } = getTurn history
-            let oldMills = getMills oldEvents shade
-            let recentMills = getMills history shade
-            let isInMillPredicate junction mill =
-                match mill with
-                | [a; b; c] -> junction = a || junction = b || junction = c
-                | _ -> false
-            let isInMill junction mills = 
-                List.exists (isInMillPredicate junction) mills
-            let destinationWasInMill = isInMill destination oldMills
-            let destinationIsInMill = isInMill destination recentMills
-            let millWasBroken = destinationWasInMill && not destinationIsInMill
-            let sourceIsInMIll = isInMill source recentMills
-            (millWasBroken && sourceIsInMIll) |> not
-        | _ -> true
     let validMove =
         match
             getPhase history, 
             areNeighbours source destination,
             isPlayerMovingOwnCow history source,
-            isLegalMove history with
+            isLegalMove history source destination with
         | Moving, true, true, true
         | Flying, _, true, _ -> Ok ()
         | Moving, _, _, false
