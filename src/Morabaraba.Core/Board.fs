@@ -35,7 +35,7 @@ let lines =
             }
     seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
 
-let filterMills occupations shade line = 
+let isMill occupations shade line = 
     List.forall 
         (fun junction -> 
             Map.containsKey junction occupations &&
@@ -46,7 +46,7 @@ let getMills history shade =
     match history with
     | [] -> []
     | { Occupations = occupations } :: _ -> 
-        List.filter (filterMills occupations shade) lines
+        List.filter (isMill occupations shade) lines
 
 let getDefenceMills history =
     match history with
