@@ -23,6 +23,8 @@
     <Compile Include="Shooting.fs" />
     <Compile Include="Movement.fsi" />
     <Compile Include="Movement.fs" />
+    <Compile Include="Termination.fsi" />
+    <Compile Include="Termination.fs" />
     <Compile Include="Playing.fsi" />
     <Compile Include="Playing.fs" />
   </ItemGroup>

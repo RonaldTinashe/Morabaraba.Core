@@ -14,11 +14,12 @@ https://web.archive.org/web/20210211041357/http://esportscommentator.blogspot.co
 * Placing
 * Shooting
 * Movement
+* Termination
+    * Draw if there have been no shots in 10 moves and both players are flying
 
 ### TODO
 
 * Termination
-    * Draw if there have been no shots in 10 moves and both players are flying
     * Win if the opponent cannot move
     * Win if the opponent concedes
     * Win if the opponent has 2 cows on the board and is flying
