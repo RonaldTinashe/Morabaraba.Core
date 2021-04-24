@@ -9,7 +9,7 @@ https://web.archive.org/web/20210211041357/http://esportscommentator.blogspot.co
 ## Installation
 
 ```
-dotnet install Morabaraba.Core
+dotnet add package Morabaraba.Core
 ```
 
 ## Usage
