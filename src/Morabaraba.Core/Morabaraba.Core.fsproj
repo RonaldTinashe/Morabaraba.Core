@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="DomainTypes.fsi" />
     <Compile Include="DomainTypes.fs" />
     <Compile Include="Initialisation.fsi" />
     <Compile Include="Initialisation.fs" />
