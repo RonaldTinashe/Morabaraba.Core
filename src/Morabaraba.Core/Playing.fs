@@ -13,11 +13,12 @@ let occupationBinder history player occupations =
     event :: history |> Ok
 
 let isLegalMove history source destination =
-    match history with
-    | _ :: _ :: oldEvents ->
-        let _, { Shade = shade } = getTurn history
-        let oldMills = getMills oldEvents shade
-        let recentMills = getMills history shade
+    let _, player = getTurn history
+    let playerHistory = List.filter (fun event -> player = event.Player) history
+    match playerHistory with
+    | _ :: oldEvents ->
+        let oldMills = getMills oldEvents player.Shade
+        let recentMills = getMills history player.Shade
         let destinationWasInMill = isInMill destination oldMills
         let destinationIsInMill = isInMill destination recentMills
         let millWasBroken = destinationWasInMill && not destinationIsInMill
