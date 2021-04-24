@@ -19,10 +19,6 @@ let getTurn history = getOccupations history, getPlayer history
 
 let decrementHand player = { player with Cows = player.Cows - 1 }
 
-let validate junction = 
-    if junction > 0 && junction < 25 then ()
-    else invalidArg "junction" <| sprintf "Value passed is %i" junction
-
 let canShoot target history =
     getShootingMills history |> List.isEmpty ||
     getDefenceMills history |> List.exists (List.contains target) &&
@@ -56,7 +52,7 @@ let rawMove source destination history =
     Result.bind (occupationBinder history player) occupiedOccupations
 
 let place junction history =
-    validate junction
+    validateJunction junction
     let occupations, player = getTurn history
     match phase history with
     | Placing ->
@@ -66,7 +62,7 @@ let place junction history =
     | _ -> Error UnexpectedOccupation
 
 let shoot target history =
-    validate target
+    validateJunction target
     if canShoot target history then Error UnexpectedEmptying 
     else
         match history with
@@ -76,8 +72,8 @@ let shoot target history =
             Result.bind (occupationBinder history player) occupations
 
 let move source destination history =
-    validate source
-    validate destination
+    validateJunction source
+    validateJunction destination
     let validMove =
         match
             phase history, 

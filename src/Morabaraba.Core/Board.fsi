@@ -17,3 +17,6 @@ val areAllDefenceJunctionsInMills : list<Event> -> bool
 
 /// Checks whether two junctions are neighbours
 val areNeighbours : int -> int -> bool
+
+/// Validates a junction
+val validateJunction : int -> unit

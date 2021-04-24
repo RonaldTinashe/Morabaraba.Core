@@ -91,3 +91,8 @@ let areNeighbours junction1 junction2 =
 
 let areAllDefenceJunctionsInMills history =
     getJunctionsInDefenceMills history = getDefenceJunctions history
+
+let validateJunction junction = 
+    if junction > 0 && junction < 25 then ()
+    else invalidArg "junction" <| sprintf "Value passed is %i" junction
+    
