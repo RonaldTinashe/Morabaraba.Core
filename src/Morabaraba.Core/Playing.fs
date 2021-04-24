@@ -109,6 +109,9 @@ let canShoot target history =
     getDefenceMills history |> List.exists (List.contains target) &&
     areAllDefenceJunctionsInMills history |> not
 
+let isPlayerMovingOwnCow occupations player source =
+    Some player.Shade = Map.tryFind source occupations
+
 let place junction history =
     validate junction
     let event =
@@ -143,7 +146,7 @@ let move source destination history =
     | [] -> Error UnexpectedEmptying
     | history ->
         let occupations, player = getTurn history
-        if Some player.Shade = Map.tryFind source occupations then
+        if isPlayerMovingOwnCow occupations player source then
             let emptiedOccupations = empty source occupations
             let occupiedOccupations =
                 Result.bind (occupy destination player.Shade) emptiedOccupations
