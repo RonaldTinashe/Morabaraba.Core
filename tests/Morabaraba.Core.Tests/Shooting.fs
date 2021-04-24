@@ -283,18 +283,6 @@ let ``unsuccessful shooting`` =
                         { Occupations = Map.ofList [ 1, Dark ]
                           Player = { Shade = Dark; Cows = 11 } } ]
 
-                  let expected =
-                      Ok(
-                          { Occupations =
-                                Map.ofList [ 6, Light
-                                             5, Light
-                                             2, Dark
-                                             4, Light
-                                             1, Dark ]
-                            Player = { Shade = Light; Cows = 9 } }
-                          :: history
-                      )
-
                   let actor () = play move history |> ignore
                   let message = "Dark cow should be shot"
                   Expect.throwsT<ArgumentException> actor message) ]
