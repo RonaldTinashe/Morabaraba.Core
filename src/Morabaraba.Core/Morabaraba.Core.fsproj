@@ -19,6 +19,8 @@
     <Compile Include="PlayingHelpers.fs" />
     <Compile Include="Placement.fsi" />
     <Compile Include="Placement.fs" />
+    <Compile Include="Shooting.fsi" />
+    <Compile Include="Shooting.fs" />
     <Compile Include="Movement.fsi" />
     <Compile Include="Movement.fs" />
     <Compile Include="Playing.fsi" />
