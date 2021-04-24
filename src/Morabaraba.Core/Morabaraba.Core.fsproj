@@ -4,6 +4,15 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+    <PropertyGroup>
+        <Title>Morabaraba.Core</Title>
+        <Description>A logical kernel for the game Morabaraba</Description>
+        <Authors>Ronald Munodawafa</Authors>
+        <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+        <PackageProjectUrl>https://gitlab.com/morabaraba1/morabaraba.core</PackageProjectUrl>
+        <RepositoryUrl>https://gitlab.com/morabaraba1/morabaraba.core</RepositoryUrl>
+    </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="DomainTypes.fsi" />
     <Compile Include="DomainTypes.fs" />
