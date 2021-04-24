@@ -18,4 +18,6 @@ type Occupations = Map<int, Shade>
 
 type Event = { Occupations : Occupations; Player : Player }
 
+type History = list<Event>
+
 type Error = UnexpectedOccupation | UnexpectedEmptying

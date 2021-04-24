@@ -61,3 +61,4 @@ let play move' history =
     match move'.Shot with
     | Some target -> Result.bind (shoot target) history
     | None -> history
+    

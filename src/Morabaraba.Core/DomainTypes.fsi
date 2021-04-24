@@ -27,5 +27,8 @@ type Occupations = Map<Junction, Shade>
 /// Models a single historical event
 type Event = { Occupations : Occupations; Player : Player }
 
+///  A history is a list of events
+type History = list<Event>
+
 /// Player-rooted error states
 type Error = UnexpectedOccupation | UnexpectedEmptying

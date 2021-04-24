@@ -4,4 +4,4 @@ module internal Morabaraba.Core.Player
 val decrementHand : Player -> Player
 
 /// Retrieves the phase the current player is in
-val getPhase : list<Event> -> Phase
+val getPhase : History -> Phase

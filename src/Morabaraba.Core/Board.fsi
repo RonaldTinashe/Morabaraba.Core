@@ -14,4 +14,4 @@ val areNeighbours : Junction -> Junction -> bool
 val validateJunction : Junction -> unit
 
 /// Checks to observe if a shot is possible
-val canShoot : Junction -> list<Event> -> bool
+val canShoot : Junction -> History -> bool
