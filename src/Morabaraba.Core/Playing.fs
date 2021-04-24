@@ -157,6 +157,12 @@ let shoot target history =
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
 
+let rawMove source destination occupations player history =
+    let emptiedOccupations = empty source occupations
+    let occupiedOccupations =
+        Result.bind (occupy destination player.Shade) emptiedOccupations
+    Result.bind (occupationBinder history player) occupiedOccupations
+
 let move source destination history =
     validate source
     validate destination
@@ -172,11 +178,8 @@ let move source destination history =
             Result.bind (occupy destination player.Shade) emptiedOccupations
         Result.bind (occupationBinder history player) occupiedOccupations
     | _, Moving, false, _ -> Error UnexpectedOccupation
-    | _, Flying, _, true ->
-        let emptiedOccupations = empty source occupations
-        let occupiedOccupations =
-            Result.bind (occupy destination player.Shade) emptiedOccupations
-        Result.bind (occupationBinder history player) occupiedOccupations
+    | _, Flying, _, true -> 
+        rawMove source destination occupations player history
     | _ -> Error UnexpectedEmptying
         
 let play move' history =
