@@ -14,6 +14,8 @@ type MainMove =
 
 type Move = { Main : MainMove; Shot : Junction option }
 
-type Event = { Occupations : Map<Junction, Shade>; Player : Player }
+type Occupations = Map<int, Shade>
+
+type Event = { Occupations : Occupations; Player : Player }
 
 type Error = UnexpectedOccupation | UnexpectedEmptying

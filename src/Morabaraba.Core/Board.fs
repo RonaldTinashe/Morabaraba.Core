@@ -4,7 +4,7 @@ let occupy (junction: Junction) (shade: Shade) occupations =
     if Map.containsKey junction occupations then Error UnexpectedOccupation
     else Map.add junction shade occupations |> Ok
 
-let empty (target: Junction) (occupations: Map<Junction, Shade>) = 
+let empty (target: Junction) (occupations: Occupations) = 
     if Map.containsKey target occupations then 
         Map.remove target occupations |> Ok
     else Error UnexpectedEmptying

@@ -4,7 +4,7 @@ let issue shade = { Shade = shade; Cows = 12 }
 
 let initial =
     {| 
-        Occupations = (Map.empty : Map<Junction, Shade>)
+        Occupations = (Map.empty : Occupations)
         DarkPlayer = issue Dark
         LightPlayer = issue Light
         History = ([] : Event list)

@@ -21,8 +21,11 @@ type MainMove =
 /// Models a game's move
 type Move = { Main : MainMove; Shot : Junction option }
 
+/// Occupations are a map from junction to shade
+type Occupations = Map<Junction, Shade>
+
 /// Models a single historical event
-type Event = { Occupations : Map<Junction, Shade>; Player : Player }
+type Event = { Occupations : Occupations; Player : Player }
 
 /// Player-rooted error states
 type Error = UnexpectedOccupation | UnexpectedEmptying
