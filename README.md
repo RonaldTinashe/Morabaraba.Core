@@ -15,11 +15,11 @@ https://web.archive.org/web/20210211041357/http://esportscommentator.blogspot.co
 * Shooting
 * Movement
     * Unvalidated movements except for junction validation
+    * Player cannot move an opponent's cow
 
 ### TODO
 
 * Movement
-    * Player cannot move an opponent's cow
     * Movement cannot happen in placing phase
     * Cow cannot fly if player is not in flying phase
     * Mill cannot be reformed if broken to form a mill
