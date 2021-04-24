@@ -10,6 +10,8 @@
     <Compile Include="Initialisation.fs" />
     <Compile Include="Board.fsi" />
     <Compile Include="Board.fs" />
+    <Compile Include="Turn.fsi" />
+    <Compile Include="Turn.fs" />
     <Compile Include="Playing.fsi" />
     <Compile Include="Playing.fs" />
   </ItemGroup>

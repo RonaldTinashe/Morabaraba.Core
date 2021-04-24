@@ -1,21 +1,7 @@
 module Morabaraba.Core.Playing
 
-open Initialisation
 open Board
-
-let getPlayer history = 
-    match history with
-    | [] -> initial.DarkPlayer
-    | [_] -> initial.LightPlayer
-    | { Player = { Shade = Dark }} :: { Player = player } :: _
-    | { Player = { Shade = Light }} :: { Player = player } :: _ -> player
-
-let getOccupations history =
-    match history with
-    | [] -> initial.Occupations
-    | event :: _ -> event.Occupations
-
-let getTurn history = getOccupations history, getPlayer history
+open Turn
 
 let decrementHand player = { player with Cows = player.Cows - 1 }
 
@@ -88,4 +74,3 @@ let play move' history =
     match move'.Shot with
     | Some target -> Result.bind (shoot target) history
     | None -> history
-    
