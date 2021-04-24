@@ -116,14 +116,19 @@ let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
 
+let phase player =
+    if player.Cows > 0 then Placing
+    else Moving
+
 let place junction history =
     validate junction
     let occupations, player = getTurn history
-    if player.Cows > 0 then
+    match phase player with
+    | Placing ->
         let occupations = occupy junction player.Shade occupations
         let player = decrementHand player
         Result.bind (occupationBinder history player) occupations
-    else Error UnexpectedOccupation
+    | _ -> Error UnexpectedOccupation
 
 let shoot target history =
     validate target
@@ -134,10 +139,6 @@ let shoot target history =
         | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
-
-let phase player =
-    if player.Cows > 0 then Placing
-    else Moving
 
 let move source destination history =
     validate source
