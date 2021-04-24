@@ -174,11 +174,9 @@ let move source destination history =
             phase player occupations, 
             areNeighbours source destination,
             isPlayerMovingOwnCow occupations player source with
-        | _, Moving, true, true ->
-            Ok ()
+        | _, Moving, true, true
+        | _, Flying, _, true -> Ok ()
         | _, Moving, false, _ -> Error UnexpectedOccupation
-        | _, Flying, _, true -> 
-            Ok ()
         | _ -> Error UnexpectedEmptying
     Result.bind (fun () -> rawMove source destination history) validMove
         
