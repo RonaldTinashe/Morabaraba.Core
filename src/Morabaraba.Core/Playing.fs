@@ -14,5 +14,5 @@ let play move' history =
 
     match move' with
     | { Shot = Some target } -> Result.bind (shoot target) history |> win
-    | { Main = Movement (_, _); Shot = None } -> history |> win |> draw
+    | { Main = Movement _; Shot = None } -> history |> win |> draw
     | _ -> history
