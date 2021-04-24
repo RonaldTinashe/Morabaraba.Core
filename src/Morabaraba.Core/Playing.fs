@@ -154,15 +154,17 @@ let move source destination history =
     validate source
     validate destination
     let occupations, player = getTurn history
-    match history, phase player, areNeighbours source destination with
-    | history, Moving, true ->
-        if isPlayerMovingOwnCow occupations player source then
-            let emptiedOccupations = empty source occupations
-            let occupiedOccupations =
-                Result.bind (occupy destination player.Shade) emptiedOccupations
-            Result.bind (occupationBinder history player) occupiedOccupations
-        else Error UnexpectedEmptying
-    | _, Moving, false -> Error UnexpectedOccupation
+    match 
+        history, 
+        phase player, 
+        areNeighbours source destination,
+        isPlayerMovingOwnCow occupations player source with
+    | history, Moving, true, true ->
+        let emptiedOccupations = empty source occupations
+        let occupiedOccupations =
+            Result.bind (occupy destination player.Shade) emptiedOccupations
+        Result.bind (occupationBinder history player) occupiedOccupations
+    | _, Moving, false, true -> Error UnexpectedOccupation
     | _ -> Error UnexpectedEmptying
         
 let play move' history =
