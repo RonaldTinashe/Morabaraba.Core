@@ -170,14 +170,13 @@ let move source destination history =
     validate source
     validate destination
     let validMove =
-        match 
-            history, 
+        match
             phase history, 
             areNeighbours source destination,
             isPlayerMovingOwnCow history source with
-        | _, Moving, true, true
-        | _, Flying, _, true -> Ok ()
-        | _, Moving, false, _ -> Error UnexpectedOccupation
+        | Moving, true, true
+        | Flying, _, true -> Ok ()
+        | Moving, false, _ -> Error UnexpectedOccupation
         | _ -> Error UnexpectedEmptying
     Result.bind (fun () -> rawMove source destination history) validMove
         
