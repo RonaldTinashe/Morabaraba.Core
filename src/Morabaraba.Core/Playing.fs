@@ -126,14 +126,21 @@ let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
 
-let phase player =
+let phase player occupations =
     if player.Cows > 0 then Placing
-    else Moving
+    else if player.Cows = 0 then
+        let cowCount =
+            occupations |> 
+            Map.filter (fun _ shade -> player.Shade = shade) |> 
+            Map.count
+        if cowCount > 3 then Moving
+        else Flying
+    else invalidArg "player" "has less than 0 cows on their hand"
 
 let place junction history =
     validate junction
     let occupations, player = getTurn history
-    match phase player with
+    match phase player occupations with
     | Placing ->
         let occupations = occupy junction player.Shade occupations
         let player = decrementHand player
@@ -156,7 +163,7 @@ let move source destination history =
     let occupations, player = getTurn history
     match 
         history, 
-        phase player, 
+        phase player occupations, 
         areNeighbours source destination,
         isPlayerMovingOwnCow occupations player source with
     | history, Moving, true, true ->
@@ -164,7 +171,12 @@ let move source destination history =
         let occupiedOccupations =
             Result.bind (occupy destination player.Shade) emptiedOccupations
         Result.bind (occupationBinder history player) occupiedOccupations
-    | _, Moving, false, true -> Error UnexpectedOccupation
+    | _, Moving, false, _ -> Error UnexpectedOccupation
+    | _, Flying, _, true ->
+        let emptiedOccupations = empty source occupations
+        let occupiedOccupations =
+            Result.bind (occupy destination player.Shade) emptiedOccupations
+        Result.bind (occupationBinder history player) occupiedOccupations
     | _ -> Error UnexpectedEmptying
         
 let play move' history =

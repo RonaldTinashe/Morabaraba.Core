@@ -20,14 +20,30 @@ let ``successful movement tests`` =
                         [
                             {
                                 Occupations =
-                                    [
+                                    [   
+                                        19, Light
+                                        18, Dark
+                                        16, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
                                         3, Light
                                         source, Dark
                                     ] |> Map.ofList
                                 Player = { Shade = Light; Cows = 0 }
                             }
                             {
-                                Occupations = Map.ofList [ source, Dark ]
+                                Occupations =
+                                    [   
+                                        18, Dark
+                                        17, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                        source, Dark
+                                        14, Light
+                                    ] |> Map.ofList
                                 Player = { Shade = Dark; Cows = 0 }
                             }
                         ]
@@ -36,12 +52,69 @@ let ``successful movement tests`` =
                             Occupations =
                                 [
                                     destination, Dark
+                                    19, Light
+                                    18, Dark
+                                    16, Light
+                                    15, Dark
+                                    13, Light
+                                    12, Dark
                                     3, Light
                                 ] |> Map.ofList
                             Player = { Shade = Dark; Cows = 0 }
                         } :: history |> Ok
                     let actual = play move history
                     let message = "Dark cow should be moved"
+                    Expect.equal actual expected message)
+
+            testCase
+                "moves cow from 2nd to 11th junction"
+                (fun () ->
+                    let source = 2
+                    let destination = 11
+                    let move = 
+                        { Main = Movement (source, destination); Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations =
+                                    [   
+                                        16, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                        source, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 0 }
+                            }
+                            {
+                                Occupations =
+                                    [   
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                        source, Dark
+                                        14, Light
+                                    ] |> Map.ofList
+                                Player = { Shade = Dark; Cows = 0 }
+                            }
+                        ]
+                    let expected =
+                        {
+                            Occupations =
+                                    [   
+                                        destination, Dark
+                                        16, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                    ] |> Map.ofList
+                            Player = { Shade = Dark; Cows = 0 }
+                        } :: history |> Ok
+                    let actual = play move history
+                    let message = "Dark cow should fly"
                     Expect.equal actual expected message)
         ]
 
@@ -120,25 +193,30 @@ let ``unsuccessful movements tests`` =
                     let history =
                         [
                             {
-                                Occupations = 
-                                    [
-                                       20, Light
-                                       19, Dark
-                                       18, Light
-                                       12, Dark
-                                       3, Light
-                                       source, Dark
+                                Occupations =
+                                    [   
+                                        19, Light
+                                        18, Dark
+                                        16, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                        source, Dark
                                     ] |> Map.ofList
                                 Player = { Shade = Light; Cows = 0 }
                             }
                             {
-                                Occupations = 
-                                    [
-                                       19, Dark
-                                       18, Light
-                                       12, Dark
-                                       3, Light
-                                       source, Dark
+                                Occupations =
+                                    [   
+                                        18, Dark
+                                        17, Light
+                                        15, Dark
+                                        13, Light
+                                        12, Dark
+                                        3, Light
+                                        source, Dark
+                                        14, Light
                                     ] |> Map.ofList
                                 Player = { Shade = Dark; Cows = 0 }
                             }
