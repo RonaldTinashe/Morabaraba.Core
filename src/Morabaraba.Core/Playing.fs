@@ -139,6 +139,10 @@ let shoot target history =
                 { event with Occupations = occupations } :: history |> Ok
             Result.bind (occupationBinder event history) occupations
 
+let occupationBinder history player occupations =
+    let event = { Occupations = occupations; Player = player }
+    event :: history |> Ok
+
 let move source destination history =
     validate source
     validate destination
@@ -150,13 +154,7 @@ let move source destination history =
             let emptiedOccupations = empty source occupations
             let occupiedOccupations =
                 Result.bind (occupy destination player.Shade) emptiedOccupations
-            Result.bind 
-                (fun occupiedOccupations -> 
-                    {
-                        Occupations = occupiedOccupations
-                        Player = player
-                    } :: history |> Ok)
-                occupiedOccupations
+            Result.bind (occupationBinder history player) occupiedOccupations
         else Error UnexpectedEmptying
         
 let play move' history =
