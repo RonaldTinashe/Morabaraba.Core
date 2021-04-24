@@ -112,24 +112,18 @@ let canShoot target history =
 let isPlayerMovingOwnCow occupations player source =
     Some player.Shade = Map.tryFind source occupations
 
-let place junction history =
-    validate junction
-    let event =
-        let occupations, player = getTurn history
-        if player.Cows > 0 then
-            let occupations = occupy junction player.Shade occupations
-            let occupationBinder occupations =
-                {
-                    Occupations = occupations
-                    Player = decrementHand player
-                } |> Ok
-            Result.bind occupationBinder occupations
-        else Error UnexpectedOccupation
-    Result.bind (fun event -> event :: history |> Ok ) event
-
 let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
+
+let place junction history =
+    validate junction
+    let occupations, player = getTurn history
+    if player.Cows > 0 then
+        let occupations = occupy junction player.Shade occupations
+        let player = decrementHand player
+        Result.bind (occupationBinder history player) occupations
+    else Error UnexpectedOccupation
 
 let shoot target history =
     validate target
@@ -139,7 +133,7 @@ let shoot target history =
         | [] -> Error UnexpectedEmptying
         | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
-            Result.bind (occupationBinder history player ) occupations
+            Result.bind (occupationBinder history player) occupations
 
 let move source destination history =
     validate source
