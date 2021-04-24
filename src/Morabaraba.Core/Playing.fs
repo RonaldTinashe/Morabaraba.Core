@@ -19,11 +19,6 @@ let getTurn history = getOccupations history, getPlayer history
 
 let decrementHand player = { player with Cows = player.Cows - 1 }
 
-let canShoot target history =
-    (getShootingMills history |> List.isEmpty ||
-        getDefenceMills history |> List.exists (List.contains target) &&
-        areAllDefenceJunctionsInMills history |> not) |> not
-
 let isPlayerMovingOwnCow history source =
     let occupations, player = getTurn history
     Some player.Shade = Map.tryFind source occupations
@@ -93,3 +88,4 @@ let play move' history =
     match move'.Shot with
     | Some target -> Result.bind (shoot target) history
     | None -> history
+    

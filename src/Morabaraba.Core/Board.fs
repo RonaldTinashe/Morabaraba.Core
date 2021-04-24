@@ -95,4 +95,8 @@ let areAllDefenceJunctionsInMills history =
 let validateJunction junction = 
     if junction > 0 && junction < 25 then ()
     else invalidArg "junction" <| sprintf "Value passed is %i" junction
-    
+
+let canShoot target history =
+    (getShootingMills history |> List.isEmpty ||
+        getDefenceMills history |> List.exists (List.contains target) &&
+        areAllDefenceJunctionsInMills history |> not) |> not
