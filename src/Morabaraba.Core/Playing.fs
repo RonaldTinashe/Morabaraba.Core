@@ -1,20 +1,9 @@
 module Morabaraba.Core.Playing
 
 open Board
-open Turn
-open Player
+open Placement
 open Movement
 open PlayingHelpers
-
-let place junction history =
-    validateJunction junction
-    let occupations, player = getTurn history
-    match getPhase history with
-    | Placing ->
-        let occupations = occupy junction player.Shade occupations
-        let player = decrementHand player
-        Result.bind (occupationBinder history player) occupations
-    | _ -> Error UnexpectedOccupation
 
 let shoot target history =
     validateJunction target
@@ -25,8 +14,6 @@ let shoot target history =
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations 
     else Error UnexpectedEmptying
-
-
         
 let play move' history =
     let history =
