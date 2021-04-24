@@ -2,8 +2,7 @@ module Morabaraba.Core.Playing
 
 open Board
 open Turn
-
-let decrementHand player = { player with Cows = player.Cows - 1 }
+open Player
 
 let isPlayerMovingOwnCow history source =
     let occupations, player = getTurn history
@@ -12,18 +11,6 @@ let isPlayerMovingOwnCow history source =
 let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
-
-let phase history =
-    let occupations, player = getTurn history
-    if player.Cows > 0 then Placing
-    else if player.Cows = 0 then
-        let cowCount =
-            occupations |> 
-            Map.filter (fun _ shade -> player.Shade = shade) |> 
-            Map.count
-        if cowCount > 3 then Moving
-        else Flying
-    else invalidArg "player" "has less than 0 cows on their hand"
 
 let rawMove source destination history =
     let occupations, player = getTurn history
@@ -35,7 +22,7 @@ let rawMove source destination history =
 let place junction history =
     validateJunction junction
     let occupations, player = getTurn history
-    match phase history with
+    match getPhase history with
     | Placing ->
         let occupations = occupy junction player.Shade occupations
         let player = decrementHand player
@@ -57,7 +44,7 @@ let move source destination history =
     validateJunction destination
     let validMove =
         match
-            phase history, 
+            getPhase history, 
             areNeighbours source destination,
             isPlayerMovingOwnCow history source with
         | Moving, true, true
