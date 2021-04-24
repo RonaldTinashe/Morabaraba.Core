@@ -26,5 +26,5 @@ let winBinder (history: History) =
 
 let win = Result.bind winBinder
 
-let concede (history: History): Result<History, Error> = 
+let concede (history: History) : Result<History, Error> = 
     Concede history |> Error
