@@ -15,6 +15,10 @@
     <Compile Include="Turn.fs" />
     <Compile Include="Player.fsi" />
     <Compile Include="Player.fs" />
+    <Compile Include="PlayingHelpers.fsi" />
+    <Compile Include="PlayingHelpers.fs" />
+    <Compile Include="Movement.fsi" />
+    <Compile Include="Movement.fs" />
     <Compile Include="Playing.fsi" />
     <Compile Include="Playing.fs" />
   </ItemGroup>
