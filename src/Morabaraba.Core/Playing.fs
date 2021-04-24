@@ -20,9 +20,9 @@ let getTurn history = getOccupations history, getPlayer history
 let decrementHand player = { player with Cows = player.Cows - 1 }
 
 let canShoot target history =
-    getShootingMills history |> List.isEmpty ||
-    getDefenceMills history |> List.exists (List.contains target) &&
-    areAllDefenceJunctionsInMills history |> not
+    (getShootingMills history |> List.isEmpty ||
+        getDefenceMills history |> List.exists (List.contains target) &&
+        areAllDefenceJunctionsInMills history |> not) |> not
 
 let isPlayerMovingOwnCow history source =
     let occupations, player = getTurn history
@@ -63,13 +63,13 @@ let place junction history =
 
 let shoot target history =
     validateJunction target
-    if canShoot target history then Error UnexpectedEmptying 
-    else
+    if canShoot target history then
         match history with
         | [] -> Error UnexpectedEmptying
         | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
-            Result.bind (occupationBinder history player) occupations
+            Result.bind (occupationBinder history player) occupations 
+    else Error UnexpectedEmptying
 
 let move source destination history =
     validateJunction source
