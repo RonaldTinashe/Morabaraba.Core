@@ -21,3 +21,6 @@ val getMills : History -> Shade -> list<list<Junction>>
 
 /// Determines if a junction is in a mill
 val isInMill : Junction -> list<list<Junction>> -> bool
+
+/// Determines if a cows of a given shade are blocked
+val areBlocked : Shade -> Occupations -> bool

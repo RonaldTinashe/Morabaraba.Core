@@ -20,4 +20,9 @@ type Event = { Occupations : Occupations; Player : Player }
 
 type History = list<Event>
 
-type Error = UnexpectedOccupation | UnexpectedEmptying | Draw of History
+type Error = 
+    | UnexpectedOccupation
+    | UnexpectedEmptying
+    | Draw of History
+    | Win of History
+    

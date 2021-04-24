@@ -140,5 +140,81 @@ let ``draw tests`` =
                     let expected = Draw (event :: history) |> Error
                     let actual = play move history
                     let message = "Game should draw"
-                    Expect.equal expected actual message)
+                    Expect.equal actual expected message)
+        ]
+
+[<Tests>]
+let ``win tests`` =
+    testList
+        "win"
+        [
+            testCase
+                "win if opponent cannot move"
+                (fun () ->
+                    let source = 18
+                    let destination = 21
+                    let move = 
+                        { Main = Movement (source, destination); Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations = 
+                                    [
+                                        1, Dark
+                                        source, Light
+                                        2, Light
+                                        4, Light
+                                        10, Light
+                                        15, Light
+                                        6, Light
+                                        19, Light
+                                        23, Light
+                                        3, Dark
+                                        22, Dark
+                                        24, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Dark; Cows = 0 }
+                            }
+                            {
+                                Occupations = 
+                                    [
+                                        13, Light
+                                        1, Dark
+                                        2, Light
+                                        4, Light
+                                        10, Light
+                                        15, Light
+                                        6, Light
+                                        19, Light
+                                        23, Light
+                                        3, Dark
+                                        22, Dark
+                                        24, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 0 }
+                            }
+                        ]
+                    let event =
+                        {
+                            Occupations = 
+                                [
+                                    destination, Light
+                                    1, Dark
+                                    2, Light
+                                    4, Light
+                                    10, Light
+                                    15, Light
+                                    6, Light
+                                    19, Light
+                                    23, Light
+                                    3, Dark
+                                    22, Dark
+                                    24, Dark
+                                ] |> Map.ofList
+                            Player = { Shade = Light; Cows = 0 }
+                        }
+                    let expected = event :: history |> Win |> Error
+                    let actual = play move history
+                    let message = "Light player should win"
+                    Expect.equal actual expected message)
         ]

@@ -1,5 +1,8 @@
 module Morabaraba.Core.Termination
 
+open Board
+open Turn
+
 let drawBinder (history : History) =
     if List.length history < 10 then Ok history
     else
@@ -15,3 +18,10 @@ let drawBinder (history : History) =
         else history |> Ok
 
 let draw = Result.bind drawBinder
+
+let winBinder (history: History) =
+    let occupations, opponent = getTurn history
+    if areBlocked opponent.Shade occupations then history |> Win |> Error
+    else Ok history
+
+let win = Result.bind winBinder

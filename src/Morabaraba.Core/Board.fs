@@ -30,7 +30,7 @@ let lines =
     let diagonals =
         seq
             { 
-                for start in [1; 3; 16] do
+                for start in [1; 3; 16; 18] do
                     [start; start + 3; start + 6]
             }
     seq { rows; columns; diagonals } |> Seq.concat |> List.ofSeq
@@ -77,12 +77,14 @@ let getJunctionsInDefenceMills history =
     List.distinct |>
     List.sort
 
+let getOccupants shade = Map.filter (fun _ cow -> cow = shade)
+
 let getDefenceJunctions history =
     match history with
     | []
     | [_] -> []
     | { Occupations = occupations } :: { Player = { Shade = shade }} :: _ ->
-        Map.filter (fun _ cow -> cow = shade) occupations |>
+        getOccupants shade occupations |>
         Map.toList |>
         List.map (fun (junction, _) -> junction) |>
         List.sort
@@ -108,3 +110,17 @@ let canShoot target history =
     (getShootingMills history |> List.isEmpty ||
         getDefenceMills history |> List.exists (List.contains target) &&
         areAllDefenceJunctionsInMills history |> not) |> not
+
+let neighbours junction =
+    Seq.except [junction] { 1 .. 24 } |>
+    Seq.filter (fun candidate -> areNeighbours junction candidate) |>
+    Seq.toList
+
+let areBlocked (shade: Shade) occupations =
+    getOccupants shade occupations |>
+    Map.map (fun junction _ -> neighbours junction) |>
+    Map.forall 
+        (fun _ neighbours -> 
+            List.forall 
+                (fun neighbour -> 
+                    Map.containsKey neighbour occupations) neighbours)

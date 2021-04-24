@@ -31,4 +31,8 @@ type Event = { Occupations : Occupations; Player : Player }
 type History = list<Event>
 
 /// Player-rooted error states
-type Error = UnexpectedOccupation | UnexpectedEmptying | Draw of History
+type Error = 
+    | UnexpectedOccupation
+    | UnexpectedEmptying
+    | Draw of History
+    | Win of History
