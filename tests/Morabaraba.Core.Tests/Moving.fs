@@ -225,4 +225,79 @@ let ``unsuccessful movements tests`` =
                     let actual = play move history
                     let message = "Dark cow should not be moved"
                     Expect.equal actual expected message)
+
+            testCase
+                "cannot reform mill broken to form mill being broken"
+                (fun () ->
+                    let source = 2
+                    let destination = 5
+                    let move = // reforming original mill from new one
+                        { Main = Movement (source, destination); Shot = None }
+                    let history =
+                        [
+                          {
+                              Occupations =
+                                [
+                                    9, Light
+                                    source, Dark
+                                    4, Dark
+                                    11, Light
+                                    6, Dark
+                                    12, Light
+                                    1, Dark
+                                    13, Light
+                                    3, Dark
+                                ] |> Map.ofList
+                              Player = { Shade = Light; Cows = 0 }
+                          }
+                          {
+                              Occupations = // original mill broken for new one
+                                [
+                                    source, Dark
+                                    10, Light
+                                    4, Dark
+                                    11, Light
+                                    6, Dark
+                                    12, Light
+                                    1, Dark
+                                    13, Light
+                                    3, Dark
+                                ] |> Map.ofList
+                              Player = { Shade = Dark; Cows = 0 }
+                          }
+                          {
+                              Occupations =
+                                [
+                                    10, Light
+                                    4, Dark
+                                    11, Light
+                                    destination, Dark
+                                    6, Dark
+                                    12, Light
+                                    1, Dark
+                                    13, Light
+                                    3, Dark
+                                ] |> Map.ofList
+                              Player = { Shade = Light; Cows = 0 }
+                          }
+                          {
+                              Occupations = // original mill
+                                [
+                                    4, Dark
+                                    11, Light
+                                    destination, Dark
+                                    22, Light
+                                    6, Dark
+                                    12, Light
+                                    1, Dark
+                                    13, Light
+                                    3, Dark
+                                ] |> Map.ofList
+                              Player = { Shade = Dark; Cows = 0 }
+                          }
+                        ]
+                    let expected = Error UnexpectedOccupation
+                    let actual = play move history
+                    let message = "Dark cow should not be moved"
+                    Expect.equal actual expected message)
         ]

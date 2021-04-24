@@ -42,14 +42,34 @@ let shoot target history =
 let move source destination history =
     validateJunction source
     validateJunction destination
+    let isLegalMove history =
+        match history with
+        | _ :: _ :: oldEvents ->
+            let _, { Shade = shade } = getTurn history
+            let oldMills = getMills oldEvents shade
+            let recentMills = getMills history shade
+            let isInMillPredicate junction mill =
+                match mill with
+                | [a; b; c] -> junction = a || junction = b || junction = c
+                | _ -> false
+            let isInMill junction mills = 
+                List.exists (isInMillPredicate junction) mills
+            let destinationWasInMill = isInMill destination oldMills
+            let destinationIsInMill = isInMill destination recentMills
+            let millWasBroken = destinationWasInMill && not destinationIsInMill
+            let sourceIsInMIll = isInMill source recentMills
+            (millWasBroken && sourceIsInMIll) |> not
+        | _ -> true
     let validMove =
         match
             getPhase history, 
             areNeighbours source destination,
-            isPlayerMovingOwnCow history source with
-        | Moving, true, true
-        | Flying, _, true -> Ok ()
-        | Moving, false, _ -> Error UnexpectedOccupation
+            isPlayerMovingOwnCow history source,
+            isLegalMove history with
+        | Moving, true, true, true
+        | Flying, _, true, _ -> Ok ()
+        | Moving, _, _, false
+        | Moving, false, _, _-> Error UnexpectedOccupation
         | _ -> Error UnexpectedEmptying
     Result.bind (fun () -> rawMove source destination history) validMove
         

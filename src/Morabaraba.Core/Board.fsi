@@ -15,3 +15,6 @@ val validateJunction : Junction -> unit
 
 /// Checks to observe if a shot is possible
 val canShoot : Junction -> History -> bool
+
+/// Get mills for a given player
+val getMills : History -> Shade -> list<list<Junction>>
