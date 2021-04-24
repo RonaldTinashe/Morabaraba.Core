@@ -7,6 +7,9 @@ type Shade = Dark | Light
 /// Models a player object
 type Player = { Shade : Shade; Cows : int }
 
+/// Modeles a player phase
+type Phase = Placing | Moving
+
 /// Models a non-shot move
 type MainMove = 
     | Placement of junction : int

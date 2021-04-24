@@ -135,21 +135,23 @@ let shoot target history =
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
 
+let phase player =
+    if player.Cows > 0 then Placing
+    else Moving
+
 let move source destination history =
     validate source
     validate destination
-    match history with
-    | [] -> Error UnexpectedEmptying
-    | history ->
-        let occupations, player = getTurn history
-        if player.Cows = 0 then
-            if isPlayerMovingOwnCow occupations player source then
-                let emptiedOccupations = empty source occupations
-                let occupiedOccupations =
-                    Result.bind (occupy destination player.Shade) emptiedOccupations
-                Result.bind (occupationBinder history player) occupiedOccupations
-            else Error UnexpectedEmptying
+    let occupations, player = getTurn history
+    match history, phase player with
+    | history, Moving ->
+        if isPlayerMovingOwnCow occupations player source then
+            let emptiedOccupations = empty source occupations
+            let occupiedOccupations =
+                Result.bind (occupy destination player.Shade) emptiedOccupations
+            Result.bind (occupationBinder history player) occupiedOccupations
         else Error UnexpectedEmptying
+    | _ -> Error UnexpectedEmptying
         
 let play move' history =
     let history =
