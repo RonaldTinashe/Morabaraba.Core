@@ -127,21 +127,19 @@ let place junction history =
         else Error UnexpectedOccupation
     Result.bind (fun event -> event :: history |> Ok ) event
 
+let occupationBinder history player occupations =
+    let event = { Occupations = occupations; Player = player }
+    event :: history |> Ok
+
 let shoot target history =
     validate target
     if canShoot target history then Error UnexpectedEmptying 
     else
         match history with
         | [] -> Error UnexpectedEmptying
-        | { Occupations = occupations } as event :: history ->
+        | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
-            let occupationBinder event history occupations =
-                { event with Occupations = occupations } :: history |> Ok
-            Result.bind (occupationBinder event history) occupations
-
-let occupationBinder history player occupations =
-    let event = { Occupations = occupations; Player = player }
-    event :: history |> Ok
+            Result.bind (occupationBinder history player ) occupations
 
 let move source destination history =
     validate source
