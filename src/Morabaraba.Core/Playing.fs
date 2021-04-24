@@ -11,7 +11,8 @@ let play move' history =
         | Placement junction -> place junction history
         | Movement (source, destination) -> move source destination history
         | Concession -> concede history
+
     match move' with
     | { Shot = Some target } -> Result.bind (shoot target) history |> win
-    | { Main = Movement (_,_); Shot = None } -> history |> win |> draw
+    | { Main = Movement (_, _); Shot = None } -> history |> win |> draw
     | _ -> history

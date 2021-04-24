@@ -1,4 +1,5 @@
 ﻿module Morabaraba.Core.Tests.Main
+
 open Expecto
 
 [<EntryPoint>]

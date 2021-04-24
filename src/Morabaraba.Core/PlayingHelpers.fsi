@@ -1,6 +1,4 @@
 module Morabaraba.Core.PlayingHelpers
 
 /// Binder for playing results
-val occupationBinder : 
-    History -> Player -> Occupations -> Result<History, Error>
-    
+val occupationBinder : History -> Player -> Occupations -> Result<History, Error>

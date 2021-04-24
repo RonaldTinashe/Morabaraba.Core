@@ -8,6 +8,7 @@ open PlayingHelpers
 let place junction history =
     validateJunction junction
     let occupations, player = getTurn history
+
     match getPhase history with
     | Placing ->
         let occupations = occupy junction player.Shade occupations

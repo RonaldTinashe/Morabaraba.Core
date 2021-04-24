@@ -1,8 +1,7 @@
 module internal Morabaraba.Core.Board
 
 /// Occupies a junction on the board with a cow of the given shade
-val occupy : 
-    Junction -> Shade -> Occupations -> Result<Occupations, Error>
+val occupy : Junction -> Shade -> Occupations -> Result<Occupations, Error>
 
 /// Empties a junction
 val empty : Junction -> Occupations -> Result<Occupations, Error>
