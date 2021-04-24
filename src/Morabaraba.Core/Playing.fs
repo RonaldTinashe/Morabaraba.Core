@@ -126,7 +126,8 @@ let occupationBinder history player occupations =
     let event = { Occupations = occupations; Player = player }
     event :: history |> Ok
 
-let phase player occupations =
+let phase history =
+    let occupations, player = getTurn history
     if player.Cows > 0 then Placing
     else if player.Cows = 0 then
         let cowCount =
@@ -140,7 +141,7 @@ let phase player occupations =
 let place junction history =
     validate junction
     let occupations, player = getTurn history
-    match phase player occupations with
+    match phase history with
     | Placing ->
         let occupations = occupy junction player.Shade occupations
         let player = decrementHand player
@@ -171,7 +172,7 @@ let move source destination history =
     let validMove =
         match 
             history, 
-            phase player occupations, 
+            phase history, 
             areNeighbours source destination,
             isPlayerMovingOwnCow occupations player source with
         | _, Moving, true, true
