@@ -1,16 +1,17 @@
 module internal Morabaraba.Core.Board
 
 /// Occupies a junction on the board with a cow of the given shade
-val occupy : int -> Shade -> Map<int, Shade> -> Result<Map<int, Shade>, Error>
+val occupy : 
+    Junction -> Shade -> Map<int, Shade> -> Result<Map<Junction, Shade>, Error>
 
 /// Empties a junction
-val empty : int -> Map<int, Shade> -> Result<Map<int, Shade>, Error>
+val empty : Junction -> Map<int, Shade> -> Result<Map<int, Shade>, Error>
 
 /// Checks whether two junctions are neighbours
-val areNeighbours : int -> int -> bool
+val areNeighbours : Junction -> Junction -> bool
 
 /// Validates a junction
-val validateJunction : int -> unit
+val validateJunction : Junction -> unit
 
 /// Checks to observe if a shot is possible
-val canShoot : int -> list<Event> -> bool
+val canShoot : Junction -> list<Event> -> bool

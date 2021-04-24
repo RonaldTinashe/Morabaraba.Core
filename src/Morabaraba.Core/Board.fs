@@ -1,10 +1,10 @@
 module Morabaraba.Core.Board
 
-let occupy (junction: int) (shade: Shade) occupations = 
+let occupy (junction: Junction) (shade: Shade) occupations = 
     if Map.containsKey junction occupations then Error UnexpectedOccupation
     else Map.add junction shade occupations |> Ok
 
-let empty (target: int) (occupations: Map<int, Shade>) = 
+let empty (target: Junction) (occupations: Map<Junction, Shade>) = 
     if Map.containsKey target occupations then 
         Map.remove target occupations |> Ok
     else Error UnexpectedEmptying
