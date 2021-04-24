@@ -10,16 +10,19 @@ type Player = { Shade : Shade; Cows : int }
 /// Modeles a player phase
 type internal Phase = Placing | Moving | Flying
 
+/// Junctions are simply 32-bit integers
+type Junction = int
+
 /// Models a non-shot move
 type MainMove = 
-    | Placement of junction : int
-    | Movement of source : int * junction : int
+    | Placement of junction : Junction
+    | Movement of source : Junction * junction : Junction
 
 /// Models a game's move
-type Move = { Main : MainMove; Shot : int option }
+type Move = { Main : MainMove; Shot : Junction option }
 
 /// Models a single historical event
-type Event = { Occupations : Map<int, Shade>; Player : Player }
+type Event = { Occupations : Map<Junction, Shade>; Player : Player }
 
 /// Player-rooted error states
 type Error = UnexpectedOccupation | UnexpectedEmptying

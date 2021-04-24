@@ -4,14 +4,16 @@ type Shade = Dark | Light
 
 type Player = { Shade : Shade; Cows : int }
 
-type Phase = Placing | Moving | Flying
+type internal Phase = Placing | Moving | Flying
+
+type Junction = int
 
 type MainMove = 
-    | Placement of junction : int
-    | Movement of source : int * junction : int
+    | Placement of junction : Junction
+    | Movement of source : Junction * junction : Junction
 
-type Move = { Main : MainMove; Shot : int option }
+type Move = { Main : MainMove; Shot : Junction option }
 
-type Event = { Occupations : Map<int, Shade>; Player : Player }
+type Event = { Occupations : Map<Junction, Shade>; Player : Player }
 
 type Error = UnexpectedOccupation | UnexpectedEmptying
