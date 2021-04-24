@@ -5,3 +5,6 @@ val draw : (Result<History, Error> -> Result<History, Error>)
 
 /// Attempts to call the game a win
 val win : (Result<History, Error> -> Result<History, Error>)
+
+/// Player concedes to opponent
+val concede : (History -> Result<History, Error>)

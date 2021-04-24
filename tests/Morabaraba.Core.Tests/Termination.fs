@@ -217,4 +217,14 @@ let ``win tests`` =
                     let actual = play move history
                     let message = "Light player should win"
                     Expect.equal actual expected message)
+
+            testCase
+                "placement by dark player on empty board's 4th junction"
+                (fun () -> 
+                    let move = { Main = Concession; Shot = None }
+                    let history = []
+                    let expected = history |> Concede |> Error
+                    let actual = play move history
+                    let message = "Dark cow should be placed"
+                    Expect.equal actual expected message)
         ]

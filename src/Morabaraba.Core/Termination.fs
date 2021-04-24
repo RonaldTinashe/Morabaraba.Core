@@ -25,3 +25,6 @@ let winBinder (history: History) =
     else Ok history
 
 let win = Result.bind winBinder
+
+let concede (history: History): Result<History, Error> = 
+    Concede history |> Error

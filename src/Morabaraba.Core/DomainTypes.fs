@@ -11,6 +11,7 @@ type Junction = int
 type MainMove = 
     | Placement of junction : Junction
     | Movement of source : Junction * junction : Junction
+    | Concession
 
 type Move = { Main : MainMove; Shot : Junction option }
 
@@ -25,4 +26,5 @@ type Error =
     | UnexpectedEmptying
     | Draw of History
     | Win of History
+    | Concede of History
     

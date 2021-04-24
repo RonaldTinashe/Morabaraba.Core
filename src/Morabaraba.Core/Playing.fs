@@ -10,8 +10,8 @@ let play move' history =
         match move'.Main with
         | Placement junction -> place junction history
         | Movement (source, destination) -> move source destination history
+        | Concession -> concede history
     match move' with
     | { Shot = Some target } -> Result.bind (shoot target) history
     | { Main = Movement (_,_); Shot = None } -> history |> draw |> win
     | _ -> history
-    
