@@ -139,6 +139,13 @@ let phase history =
         else Flying
     else invalidArg "player" "has less than 0 cows on their hand"
 
+let rawMove source destination history =
+    let occupations, player = getTurn history
+    let emptiedOccupations = empty source occupations
+    let occupiedOccupations =
+        Result.bind (occupy destination player.Shade) emptiedOccupations
+    Result.bind (occupationBinder history player) occupiedOccupations
+
 let place junction history =
     validate junction
     let occupations, player = getTurn history
@@ -158,13 +165,6 @@ let shoot target history =
         | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
-
-let rawMove source destination history =
-    let occupations, player = getTurn history
-    let emptiedOccupations = empty source occupations
-    let occupiedOccupations =
-        Result.bind (occupy destination player.Shade) emptiedOccupations
-    Result.bind (occupationBinder history player) occupiedOccupations
 
 let move source destination history =
     validate source
