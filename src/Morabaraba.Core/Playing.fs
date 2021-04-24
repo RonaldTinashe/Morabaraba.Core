@@ -119,7 +119,8 @@ let canShoot target history =
     getDefenceMills history |> List.exists (List.contains target) &&
     areAllDefenceJunctionsInMills history |> not
 
-let isPlayerMovingOwnCow occupations player source =
+let isPlayerMovingOwnCow history source =
+    let occupations, player = getTurn history
     Some player.Shade = Map.tryFind source occupations
 
 let occupationBinder history player occupations =
@@ -168,13 +169,12 @@ let rawMove source destination history =
 let move source destination history =
     validate source
     validate destination
-    let occupations, player = getTurn history
     let validMove =
         match 
             history, 
             phase history, 
             areNeighbours source destination,
-            isPlayerMovingOwnCow occupations player source with
+            isPlayerMovingOwnCow history source with
         | _, Moving, true, true
         | _, Flying, _, true -> Ok ()
         | _, Moving, false, _ -> Error UnexpectedOccupation
