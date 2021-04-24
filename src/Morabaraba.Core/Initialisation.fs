@@ -7,5 +7,5 @@ let initial =
         Occupations = (Map.empty : Occupations)
         DarkPlayer = issue Dark
         LightPlayer = issue Light
-        History = ([] : Event list)
+        History = ([] : History)
     |}
