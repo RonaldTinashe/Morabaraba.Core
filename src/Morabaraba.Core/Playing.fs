@@ -168,17 +168,19 @@ let move source destination history =
     validate source
     validate destination
     let occupations, player = getTurn history
-    match 
-        history, 
-        phase player occupations, 
-        areNeighbours source destination,
-        isPlayerMovingOwnCow occupations player source with
-    | history, Moving, true, true ->
-        rawMove source destination history
-    | _, Moving, false, _ -> Error UnexpectedOccupation
-    | _, Flying, _, true -> 
-        rawMove source destination history
-    | _ -> Error UnexpectedEmptying
+    let validMove =
+        match 
+            history, 
+            phase player occupations, 
+            areNeighbours source destination,
+            isPlayerMovingOwnCow occupations player source with
+        | _, Moving, true, true ->
+            Ok ()
+        | _, Moving, false, _ -> Error UnexpectedOccupation
+        | _, Flying, _, true -> 
+            Ok ()
+        | _ -> Error UnexpectedEmptying
+    Result.bind (fun () -> rawMove source destination history) validMove
         
 let play move' history =
     let history =
