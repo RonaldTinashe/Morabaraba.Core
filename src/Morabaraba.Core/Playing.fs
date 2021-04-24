@@ -140,18 +140,30 @@ let shoot target history =
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
 
+let areNeighbours junction1 junction2 =
+    let areNextToEachOther line = 
+        match line with
+        | [a; b; _]
+        | [_; a; b] -> 
+            a = junction1 && b = junction2 ||
+            a = junction2 && b = junction1
+        | _ -> false
+    List.exists areNextToEachOther lines
+
 let move source destination history =
     validate source
     validate destination
     let occupations, player = getTurn history
     match history, phase player with
     | history, Moving ->
-        if isPlayerMovingOwnCow occupations player source then
-            let emptiedOccupations = empty source occupations
-            let occupiedOccupations =
-                Result.bind (occupy destination player.Shade) emptiedOccupations
-            Result.bind (occupationBinder history player) occupiedOccupations
-        else Error UnexpectedEmptying
+        if areNeighbours source destination then
+            if isPlayerMovingOwnCow occupations player source then
+                let emptiedOccupations = empty source occupations
+                let occupiedOccupations =
+                    Result.bind (occupy destination player.Shade) emptiedOccupations
+                Result.bind (occupationBinder history player) occupiedOccupations
+            else Error UnexpectedEmptying
+        else Error UnexpectedOccupation
     | _ -> Error UnexpectedEmptying
         
 let play move' history =
