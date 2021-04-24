@@ -143,16 +143,18 @@ let move source destination history =
     | [] -> Error UnexpectedEmptying
     | history ->
         let occupations, player = getTurn history
-        let emptiedOccupations = empty source occupations
-        let occupiedOccupations =
-            Result.bind (occupy destination player.Shade) emptiedOccupations
-        Result.bind 
-            (fun occupiedOccupations -> 
-                {
-                    Occupations = occupiedOccupations
-                    Player = player
-                } :: history |> Ok)
-            occupiedOccupations
+        if Some player.Shade = Map.tryFind source occupations then
+            let emptiedOccupations = empty source occupations
+            let occupiedOccupations =
+                Result.bind (occupy destination player.Shade) emptiedOccupations
+            Result.bind 
+                (fun occupiedOccupations -> 
+                    {
+                        Occupations = occupiedOccupations
+                        Player = player
+                    } :: history |> Ok)
+                occupiedOccupations
+        else Error UnexpectedEmptying
         
 let play move' history =
     let history =

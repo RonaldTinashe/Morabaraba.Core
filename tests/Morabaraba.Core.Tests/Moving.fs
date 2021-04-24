@@ -44,3 +44,45 @@ let ``successful movement tests`` =
                     let message = "Dark cow should be moved"
                     Expect.equal actual expected message)
         ]
+
+[<Tests>]
+let ``unsuccessful movements tests`` =
+    testList
+        "unsuccessful movements"
+        [
+            testCase
+                "player cannot move opponent's cow"
+                (fun () ->
+                    let source = 2
+                    let destination = 1
+                    let move = 
+                        { Main = Movement (source, destination); Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations =
+                                    [
+                                        11, Dark
+                                        3, Light
+                                        source, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Dark; Cows = 0 }
+                            }
+                            {
+                                Occupations =
+                                    [
+                                        3, Light
+                                        source, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 0 }
+                            }
+                            {
+                                Occupations = Map.ofList [ source, Dark ]
+                                Player = { Shade = Dark; Cows = 0 }
+                            }
+                        ]
+                    let expected = Error UnexpectedEmptying
+                    let actual = play move history
+                    let message = "Dark cow should not be moved"
+                    Expect.equal actual expected message)
+        ]
