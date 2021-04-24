@@ -142,11 +142,13 @@ let move source destination history =
     | [] -> Error UnexpectedEmptying
     | history ->
         let occupations, player = getTurn history
-        if isPlayerMovingOwnCow occupations player source then
-            let emptiedOccupations = empty source occupations
-            let occupiedOccupations =
-                Result.bind (occupy destination player.Shade) emptiedOccupations
-            Result.bind (occupationBinder history player) occupiedOccupations
+        if player.Cows = 0 then
+            if isPlayerMovingOwnCow occupations player source then
+                let emptiedOccupations = empty source occupations
+                let occupiedOccupations =
+                    Result.bind (occupy destination player.Shade) emptiedOccupations
+                Result.bind (occupationBinder history player) occupiedOccupations
+            else Error UnexpectedEmptying
         else Error UnexpectedEmptying
         
 let play move' history =

@@ -85,4 +85,28 @@ let ``unsuccessful movements tests`` =
                     let actual = play move history
                     let message = "Dark cow should not be moved"
                     Expect.equal actual expected message)
+
+            testCase
+                "player cannot move in placing phase"
+                (fun () ->
+                    let move = { Main = Movement (10, 11); Shot = None }
+                    let history =
+                        [
+                            {
+                                Occupations =
+                                    [
+                                        2, Light
+                                        10, Dark
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 11 }
+                            }           
+                            { 
+                                Occupations = Map.ofList [ 10, Dark ]
+                                Player = { Shade = Dark; Cows = 11 }
+                            }
+                        ]
+                    let expected = Error UnexpectedEmptying
+                    let actual = play move history
+                    let message = "Dark cow should not be moved"
+                    Expect.equal actual expected message)
         ]
