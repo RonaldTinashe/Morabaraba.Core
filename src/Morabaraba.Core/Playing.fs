@@ -173,10 +173,7 @@ let move source destination history =
         areNeighbours source destination,
         isPlayerMovingOwnCow occupations player source with
     | history, Moving, true, true ->
-        let emptiedOccupations = empty source occupations
-        let occupiedOccupations =
-            Result.bind (occupy destination player.Shade) emptiedOccupations
-        Result.bind (occupationBinder history player) occupiedOccupations
+        rawMove source destination occupations player history
     | _, Moving, false, _ -> Error UnexpectedOccupation
     | _, Flying, _, true -> 
         rawMove source destination occupations player history
