@@ -116,11 +116,11 @@ let neighbours junction =
     Seq.filter (fun candidate -> areNeighbours junction candidate) |>
     Seq.toList
 
+let areNeighboursOccupied occupations neighbours =
+    List.forall 
+        (fun neighbour -> Map.containsKey neighbour occupations) neighbours
+
 let areBlocked (shade: Shade) occupations =
     getOccupants shade occupations |>
     Map.map (fun junction _ -> neighbours junction) |>
-    Map.forall 
-        (fun _ neighbours -> 
-            List.forall 
-                (fun neighbour -> 
-                    Map.containsKey neighbour occupations) neighbours)
+    Map.forall (fun _ -> areNeighboursOccupied occupations)
