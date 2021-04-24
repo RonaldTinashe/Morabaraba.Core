@@ -77,7 +77,8 @@ let getJunctionsInDefenceMills history =
     List.distinct |>
     List.sort
 
-let getOccupants shade = Map.filter (fun _ cow -> cow = shade)
+let getOccupants shade : Occupations -> Occupations = 
+    Map.filter (fun _ cow -> cow = shade)
 
 let getDefenceJunctions history =
     match history with

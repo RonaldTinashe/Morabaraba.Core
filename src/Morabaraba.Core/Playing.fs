@@ -12,6 +12,6 @@ let play move' history =
         | Movement (source, destination) -> move source destination history
         | Concession -> concede history
     match move' with
-    | { Shot = Some target } -> Result.bind (shoot target) history
-    | { Main = Movement (_,_); Shot = None } -> history |> draw |> win
+    | { Shot = Some target } -> Result.bind (shoot target) history |> win
+    | { Main = Movement (_,_); Shot = None } -> history |> win |> draw
     | _ -> history

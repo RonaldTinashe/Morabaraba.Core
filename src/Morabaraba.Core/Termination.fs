@@ -21,7 +21,11 @@ let draw = Result.bind drawBinder
 
 let winBinder (history: History) =
     let occupations, opponent = getTurn history
+    let opponentHas2 = getOccupants opponent.Shade occupations |> Map.count = 2
+    let opponentHasNoHand = opponent.Cows = 0
+    let hasWon = opponentHas2 && opponentHasNoHand
     if areBlocked opponent.Shade occupations then history |> Win |> Error
+    else if hasWon then history |> Win |> Error
     else Ok history
 
 let win = Result.bind winBinder

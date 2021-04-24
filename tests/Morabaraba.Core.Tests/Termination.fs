@@ -227,4 +227,59 @@ let ``win tests`` =
                     let actual = play move history
                     let message = "Player should concede"
                     Expect.equal actual expected message)
+
+            testCase
+                "win if opponent has only 2 cows left"
+                (fun () -> 
+                    let target = 21
+                    let source = 4
+                    let destination = 1
+                    let move = 
+                        { 
+                            Main = Movement (source, destination)
+                            Shot = Some target 
+                        }
+                    let history = 
+                        [
+                            {
+                                Occupations =
+                                    [
+                                        target, Dark
+                                        2, Light
+                                        5, Dark
+                                        3, Light
+                                        6, Dark
+                                        source, Light
+                                    ] |> Map.ofList
+                                Player = { Shade = Dark; Cows = 0 }
+                            }
+                            {
+                                Occupations =
+                                    [
+                                        3, Light
+                                        target, Dark
+                                        2, Light
+                                        5, Dark
+                                        6, Dark
+                                        source, Light
+                                    ] |> Map.ofList
+                                Player = { Shade = Light; Cows = 0 }
+                            }
+                        ]
+                    let event =
+                        {
+                            Occupations = 
+                                [
+                                    destination, Light
+                                    2, Light
+                                    5, Dark
+                                    3, Light
+                                    6, Dark
+                                ] |> Map.ofList
+                            Player = { Shade = Light; Cows = 0 }
+                        }
+                    let expected = event :: history |> Win |> Error
+                    let actual = play move history
+                    let message = "Player should win"
+                    Expect.equal actual expected message)
         ]
