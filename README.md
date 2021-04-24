@@ -15,9 +15,9 @@ https://web.archive.org/web/20210211041357/http://esportscommentator.blogspot.co
 * Shooting
 * Movement
 * Termination
+* CI
 
 ### TODO
 
-* CI
 * Package
 * Publish
