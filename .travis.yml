@@ -1,0 +1,8 @@
+language: csharp
+os: linux
+dist: focal
+mono: none
+dotnet: 5.0
+script:
+    - dotnet restore
+    - dotnet run --project tests/*Tests
