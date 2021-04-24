@@ -120,15 +120,26 @@ let ``unsuccessful movements tests`` =
                     let history =
                         [
                             {
-                                Occupations =
+                                Occupations = 
                                     [
-                                        3, Light
-                                        source, Dark
+                                       20, Light
+                                       19, Dark
+                                       18, Light
+                                       12, Dark
+                                       3, Light
+                                       source, Dark
                                     ] |> Map.ofList
                                 Player = { Shade = Light; Cows = 0 }
                             }
                             {
-                                Occupations = Map.ofList [ source, Dark ]
+                                Occupations = 
+                                    [
+                                       19, Dark
+                                       18, Light
+                                       12, Dark
+                                       3, Light
+                                       source, Dark
+                                    ] |> Map.ofList
                                 Player = { Shade = Dark; Cows = 0 }
                             }
                         ]
