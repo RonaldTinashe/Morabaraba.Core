@@ -101,6 +101,16 @@ let getDefenceJunctions history =
         List.map (fun (junction, _) -> junction) |>
         List.sort
 
+let areNeighbours junction1 junction2 =
+    let areNextToEachOther line = 
+        match line with
+        | [a; b; _]
+        | [_; a; b] -> 
+            a = junction1 && b = junction2 ||
+            a = junction2 && b = junction1
+        | _ -> false
+    List.exists areNextToEachOther lines
+
 let areAllDefenceJunctionsInMills history =
     getJunctionsInDefenceMills history = getDefenceJunctions history
 
@@ -139,16 +149,6 @@ let shoot target history =
         | { Occupations = occupations; Player = player } :: history ->
             let occupations = empty target occupations
             Result.bind (occupationBinder history player) occupations
-
-let areNeighbours junction1 junction2 =
-    let areNextToEachOther line = 
-        match line with
-        | [a; b; _]
-        | [_; a; b] -> 
-            a = junction1 && b = junction2 ||
-            a = junction2 && b = junction1
-        | _ -> false
-    List.exists areNextToEachOther lines
 
 let move source destination history =
     validate source
