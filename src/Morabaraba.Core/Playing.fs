@@ -18,12 +18,6 @@ let isLegalMove history source destination =
         let _, { Shade = shade } = getTurn history
         let oldMills = getMills oldEvents shade
         let recentMills = getMills history shade
-        let isInMillPredicate junction mill =
-            match mill with
-            | [a; b; c] -> junction = a || junction = b || junction = c
-            | _ -> false
-        let isInMill junction mills = 
-            List.exists (isInMillPredicate junction) mills
         let destinationWasInMill = isInMill destination oldMills
         let destinationIsInMill = isInMill destination recentMills
         let millWasBroken = destinationWasInMill && not destinationIsInMill

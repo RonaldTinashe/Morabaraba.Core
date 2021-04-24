@@ -42,6 +42,14 @@ let isMill occupations shade line =
             occupations.[junction] = shade)
         line
 
+let isInMillPredicate junction mill =
+    match mill with
+    | [a; b; c] -> junction = a || junction = b || junction = c
+    | _ -> false
+    
+let isInMill (junction: Junction) mills = 
+    List.exists (isInMillPredicate junction) mills
+
 let getMills history shade =
     match history with
     | [] -> []

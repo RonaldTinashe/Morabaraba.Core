@@ -18,3 +18,6 @@ val canShoot : Junction -> History -> bool
 
 /// Get mills for a given player
 val getMills : History -> Shade -> list<list<Junction>>
+
+/// Determines if a junction is in a mill
+val isInMill : Junction -> list<list<Junction>> -> bool
