@@ -19,17 +19,25 @@ It can be used in a variety of usage of contexts.
 
 ### Initial game state
 
+The foollowing examples assume the code is being run in F# interactive
+
 ```fsharp
 open Morabaraba.Core.Initialisation
 
-initial // Please refer to initialisation tests
+// Please refer to initialisation tests
+initial |> sprintf "%A"
 ```
 
 ### Gameplay
 
 ```fsharp
+open Morabaraba.Core
+open Morabaraba.Core.Initialisation
 open Morabaraba.Core.Playing
 
-// Please refer to playing tests
-play { Move = Placement 2; Shot = Some 4 } initial.History
+(*  Please refer to playing tests
+    This function is meant to be used in a game loop
+    The output history becomes non-user input
+    for its next application for continuity *)
+play { Main = Placement 2; Shot = Some 4 } initial.History
 ```
