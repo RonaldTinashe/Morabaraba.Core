@@ -17,9 +17,9 @@ dotnet add package Morabaraba.Core
 This F# library is intended to be used as a logical kernel for the game.
 It can be used in a variety of usage of contexts.
 
-### Initial game state
+The following examples assume the code is being run in F# interactive.
 
-The foollowing examples assume the code is being run in F# interactive
+### Initial game state
 
 ```fsharp
 open Morabaraba.Core.Initialisation
