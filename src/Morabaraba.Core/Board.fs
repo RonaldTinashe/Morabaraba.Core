@@ -79,14 +79,14 @@ let getShootingMills history =
 
 let getJunctionsInDefenceMills history = getDefenceMills history |> List.concat
 
-let getOccupants shade : Occupations -> Occupations = Map.filter (fun _ cow -> cow = shade)
+let getOccupations shade : Occupations -> Occupations = Map.filter (fun _ cow -> cow = shade)
 
 let getDefenceJunctions history =
     match history with
     | []
     | [ _ ] -> []
     | { Occupations = occupations } :: { Player = { Shade = shade } } :: _ ->
-        getOccupants shade occupations
+        getOccupations shade occupations
         |> Map.toList
         |> List.map (fun (junction, _) -> junction)
         |> List.sort
@@ -128,6 +128,6 @@ let areNeighboursOccupied occupations neighbours =
     List.forall (fun neighbour -> Map.containsKey neighbour occupations) neighbours
 
 let areBlocked (shade: Shade) occupations =
-    getOccupants shade occupations
+    getOccupations shade occupations
     |> Map.map (fun junction _ -> neighbours junction)
     |> Map.forall (fun _ -> areNeighboursOccupied occupations)

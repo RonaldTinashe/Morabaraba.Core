@@ -27,7 +27,7 @@ let winBinder (history: History) =
     let occupations, opponent = getTurn history
 
     let opponentHas2 =
-        getOccupants opponent.Shade occupations
+        getOccupations opponent.Shade occupations
         |> Map.count = 2
 
     let opponentHasNoHand = opponent.Cows = 0

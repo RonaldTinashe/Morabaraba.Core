@@ -25,4 +25,4 @@ val isInMill : Junction -> list<list<Junction>> -> bool
 val areBlocked : Shade -> Occupations -> bool
 
 /// Retrieves the occupations of a given shade
-val getOccupants : (Shade -> Occupations -> Occupations)
+val getOccupations : (Shade -> Occupations -> Occupations)
