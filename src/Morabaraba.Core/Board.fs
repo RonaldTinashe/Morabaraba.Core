@@ -77,11 +77,7 @@ let getShootingMills history =
         let previousMills = getMills previousHistory player.Shade
         List.except previousMills currentMills
 
-let getJunctionsInDefenceMills history =
-    getDefenceMills history
-    |> List.concat
-    |> List.distinct
-    |> List.sort
+let getJunctionsInDefenceMills history = getDefenceMills history |> List.concat
 
 let getOccupants shade : Occupations -> Occupations = Map.filter (fun _ cow -> cow = shade)
 
